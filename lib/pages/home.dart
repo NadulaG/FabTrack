@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show json;
 
-import '../auth/log_in.dart';
+import 'auth/log_in.dart';
 import '../components/nav.dart';
 
 import '../components/tool_cards.dart';

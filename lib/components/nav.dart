@@ -40,26 +40,8 @@ class _NavState extends State<Nav> {
       backgroundColor: const Color.fromRGBO(79, 82, 90, 1),
       body: _children.elementAt(_selectedIndex),
       bottomNavigationBar: NavigationBar(
-        backgroundColor: Color(0xFF80838B),
+        backgroundColor: const Color(0xFF80838B),
         selectedIndex: _selectedIndex,
-        // onDestinationSelected: (index) {
-        //   // if (index != selectedPageIndex) {
-        //   //   if (index == 0) {
-        //   //     Navigator.of(context)
-        //   //         .push(MaterialPageRoute(builder: (context) {
-        //   //       return Home(user: widget.user);
-        //   //     }));
-        //   //   } else if (index == 1) {
-        //   //     Navigator.pushNamed(context, '/search');
-        //   //   } else if (index == 2) {
-        //   //     Navigator.of(context)
-        //   //         .push(MaterialPageRoute(builder: (context) {
-        //   //       return Profile(user: widget.user);
-        //   //     }));
-        //   //   }
-        //   // }
-
-        // },
         onDestinationSelected: onDestinationSelected,
         destinations: const [
           NavigationDestination(
@@ -77,12 +59,8 @@ class _NavState extends State<Nav> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          
-          Home.getKey().currentState!.stateAddCard();
-        },
-        tooltip: 'Increment',
-        backgroundColor: const Color(0xFF79FF87),
+        onPressed: () {},
+        backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
         child: const Icon(Icons.add),
       ),
     );

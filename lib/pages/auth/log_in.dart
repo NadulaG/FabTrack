@@ -1,6 +1,6 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:fabtrack/pages/home.dart';
-import '../components/nav.dart';
+import '../../components/nav.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -37,7 +37,9 @@ class Login extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 8.0),
                   child: Text("FabTrack",
                       style: TextStyle(
-                          fontSize: 36.0, fontWeight: FontWeight.bold, color: Colors.white))),
+                          fontSize: 36.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white))),
               ElevatedButton.icon(
                   onPressed: logIn,
                   style: ElevatedButton.styleFrom(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../auth/log_in.dart';
+import 'auth/log_in.dart';
 
 class Profile extends StatelessWidget {
   Profile({Key? key, required this.user}) : super(key: key);
