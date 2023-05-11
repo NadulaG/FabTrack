@@ -8,6 +8,8 @@ import 'dart:convert' show json;
 import 'auth/log_in.dart';
 import '../components/nav.dart';
 
+import '../components/tool_cards.dart';
+
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
   Map<int, Color> swatch = {};
@@ -43,49 +45,60 @@ class _HomeState extends State<Home> {
     'https://www.googleapis.com/auth/spreadsheets',
   ]);
 
+  GlobalKey<ActivityCardState> _key = GlobalKey<ActivityCardState>();
+  int _counter = 0;
+
+  _MyHomePageState() {
+    print("constructer is constructing");
+  }
+
+
   final _spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
   int selectedPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          // margin: const EdgeInsets.all(10.0),
-          // color: Color(0xFF80838B),
-          width: MediaQuery.of(context).size.width,
-          height: 140.0,
+    return Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              // margin: const EdgeInsets.all(10.0),
+              // color: Color(0xFF80838B),
+              width: MediaQuery.of(context).size.width,
+              height: 140.0,
 
-          decoration: BoxDecoration(
-              border: Border.all(
-                color: Color(0xFF80838B),
-              ),
-              color: Color(0xFF80838B),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Color(0xFF80838B),
+                  ),
+                  color: Color(0xFF80838B),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
 
-          child: Container(
-            margin: EdgeInsets.fromLTRB(10, 60, 10, 10),
-            // color: Color(0xFF4F525A),
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: Color(0xFF4F525A),
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(10, 60, 10, 10),
+                // color: Color(0xFF4F525A),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Color(0xFF4F525A),
+                    ),
+                    color: Color(0xFF4F525A),
+                    borderRadius: const BorderRadius.all(Radius.circular(10))),
+                child: Center(
+                  child: Text('Status: Signed In',
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        fontSize: 24,
+                      )),
                 ),
-                color: Color(0xFF4F525A),
-                borderRadius: const BorderRadius.all(Radius.circular(10))),
-            child: Center(
-              child: Text('Status: Signed In',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                    fontSize: 24,
-                  )),
+              ),
             ),
-          ),
+            ActivityCard(key: _key)
+          ],
         ),
-      ],
     );
   }
 }
