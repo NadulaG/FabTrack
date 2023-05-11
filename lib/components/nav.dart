@@ -59,7 +59,9 @@ class _NavState extends State<Nav> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Home.getKey().currentState!.stateAddCard();
+        },
         backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
         child: const Icon(Icons.add),
       ),
