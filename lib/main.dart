@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         //   labelTextStyle: TextStyle(color: Colors.white),
         // ),
       ),
-      home: Login(title: 'Login'),
+      home: Login(),
     );
   }
 }
