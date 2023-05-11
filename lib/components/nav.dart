@@ -63,6 +63,7 @@ class _NavState extends State<Nav> {
         backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
         child: const Icon(Icons.add),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
   }
 }
