@@ -30,10 +30,16 @@ MaterialColor createMaterialColor(Color color) {
   return MaterialColor(color.value, swatch);
 }
 
+GlobalKey<ActivityCardState> homeKey = GlobalKey<ActivityCardState>();
+
 class Home extends StatefulWidget {
   final GoogleSignInAccount user;
 
   Home({Key? key, required this.user}) : super(key: key);
+
+  static GlobalKey<ActivityCardState> getKey() {
+    return homeKey;
+  }
 
   @override
   State<Home> createState() => _HomeState();
@@ -45,13 +51,11 @@ class _HomeState extends State<Home> {
     'https://www.googleapis.com/auth/spreadsheets',
   ]);
 
-  GlobalKey<ActivityCardState> _key = GlobalKey<ActivityCardState>();
   int _counter = 0;
 
   _MyHomePageState() {
     print("constructer is constructing");
   }
-
 
   final _spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
   int selectedPageIndex = 0;
@@ -59,46 +63,46 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              // margin: const EdgeInsets.all(10.0),
-              // color: Color(0xFF80838B),
-              width: MediaQuery.of(context).size.width,
-              height: 140.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            // margin: const EdgeInsets.all(10.0),
+            // color: Color(0xFF80838B),
+            width: MediaQuery.of(context).size.width,
+            height: 140.0,
 
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color(0xFF80838B),
+                ),
+                color: Color(0xFF80838B),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 60, 10, 10),
+              // color: Color(0xFF4F525A),
               decoration: BoxDecoration(
                   border: Border.all(
-                    color: Color(0xFF80838B),
-                  ),
-                  color: Color(0xFF80838B),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(10, 60, 10, 10),
-                // color: Color(0xFF4F525A),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color(0xFF4F525A),
-                    ),
                     color: Color(0xFF4F525A),
-                    borderRadius: const BorderRadius.all(Radius.circular(10))),
-                child: Center(
-                  child: Text('Status: Signed In',
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        fontSize: 24,
-                      )),
-                ),
+                  ),
+                  color: Color(0xFF4F525A),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Center(
+                child: Text('Status: Signed In',
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 24,
+                    )),
               ),
             ),
-            ActivityCard(key: _key)
-          ],
-        ),
+          ),
+          ActivityCard(key: homeKey)
+        ],
+      ),
     );
   }
 }

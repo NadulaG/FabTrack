@@ -37,44 +37,54 @@ class _NavState extends State<Nav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromRGBO(79, 82, 90, 1),
-        body: _children.elementAt(_selectedIndex),
-        bottomNavigationBar: NavigationBar(
-          backgroundColor: Color(0xFF80838B),
-          selectedIndex: _selectedIndex,
-          // onDestinationSelected: (index) {
-          //   // if (index != selectedPageIndex) {
-          //   //   if (index == 0) {
-          //   //     Navigator.of(context)
-          //   //         .push(MaterialPageRoute(builder: (context) {
-          //   //       return Home(user: widget.user);
-          //   //     }));
-          //   //   } else if (index == 1) {
-          //   //     Navigator.pushNamed(context, '/search');
-          //   //   } else if (index == 2) {
-          //   //     Navigator.of(context)
-          //   //         .push(MaterialPageRoute(builder: (context) {
-          //   //       return Profile(user: widget.user);
-          //   //     }));
-          //   //   }
-          //   // }
+      backgroundColor: const Color.fromRGBO(79, 82, 90, 1),
+      body: _children.elementAt(_selectedIndex),
+      bottomNavigationBar: NavigationBar(
+        backgroundColor: Color(0xFF80838B),
+        selectedIndex: _selectedIndex,
+        // onDestinationSelected: (index) {
+        //   // if (index != selectedPageIndex) {
+        //   //   if (index == 0) {
+        //   //     Navigator.of(context)
+        //   //         .push(MaterialPageRoute(builder: (context) {
+        //   //       return Home(user: widget.user);
+        //   //     }));
+        //   //   } else if (index == 1) {
+        //   //     Navigator.pushNamed(context, '/search');
+        //   //   } else if (index == 2) {
+        //   //     Navigator.of(context)
+        //   //         .push(MaterialPageRoute(builder: (context) {
+        //   //       return Profile(user: widget.user);
+        //   //     }));
+        //   //   }
+        //   // }
 
-          // },
-          onDestinationSelected: onDestinationSelected,
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.search),
-              label: 'Search',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-        ));
+        // },
+        onDestinationSelected: onDestinationSelected,
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          
+          Home.getKey().currentState!.stateAddCard();
+        },
+        tooltip: 'Increment',
+        backgroundColor: const Color(0xFF79FF87),
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
