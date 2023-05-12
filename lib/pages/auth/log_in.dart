@@ -15,13 +15,17 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     logIn() async {
-      await _googleSignIn.signIn().then((user) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => Nav(user: user!),
-          ),
-        );
-      });
+      try {
+        await _googleSignIn.signIn().then((user) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => Nav(user: user!),
+            ),
+          );
+        });
+      } catch (error) {
+        print(error);
+      }
     }
 
     return Scaffold(
