@@ -35,7 +35,7 @@ GlobalKey<ActivityCardState> homeKey = GlobalKey<ActivityCardState>();
 class Home extends StatefulWidget {
   final GoogleSignInAccount user;
 
-  Home({Key? key, required this.user}) : super(key: key);
+  const Home({Key? key, required this.user}) : super(key: key);
 
   static GlobalKey<ActivityCardState> getKey() {
     return homeKey;
@@ -46,15 +46,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
-    'email',
-    'https://www.googleapis.com/auth/spreadsheets',
-  ]);
-
-  int _counter = 0;
-
-  _MyHomePageState() {
-  }
+  _MyHomePageState() {}
 
   final _spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
   int selectedPageIndex = 0;
@@ -72,7 +64,7 @@ class _HomeState extends State<Home> {
                 color: const Color(0xFF80838B),
               ),
               color: const Color(0xFF80838B),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: Container(
             margin: const EdgeInsets.fromLTRB(10, 60, 10, 10),
             // color: Color(0xFF4F525A),
