@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../pages/home.dart';
 import '../pages/profile.dart';
+import '../pages/check_in.dart';
 
 class Nav extends StatefulWidget {
   final GoogleSignInAccount user;

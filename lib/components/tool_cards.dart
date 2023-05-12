@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ActivityCard extends StatefulWidget {
   final ActivityCardState cardState = ActivityCardState();
@@ -37,17 +38,33 @@ class ActivityCardState extends State<ActivityCard> {
                   color: const Color(0xFF80838B),
                   border: Border.all(color: const Color(0xFF80838B)),
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  margin: const EdgeInsets.all(4),
-                  height: 45,
-                  width: 120,
-                  decoration: const BoxDecoration(
-                      color: Color(0xFFF4C300),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                      
-                ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      margin: const EdgeInsets.all(4),
+                      padding: const EdgeInsets.all(4),
+                      height: 45,
+                      width: 120,
+                      decoration: const BoxDecoration(
+                          color: Color(0xFFF4C300),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Center(
+                        child: Text(
+                          'yooo',
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.clip,
+                          style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
           }),
