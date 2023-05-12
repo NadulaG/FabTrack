@@ -15,7 +15,6 @@ class ActivityCardState extends State<ActivityCard> {
   int _cardLength = 0;
 
   ActivityCardState() {
-    print("constructer re-called");
   }
 
   stateAddCard() {
@@ -25,8 +24,6 @@ class ActivityCardState extends State<ActivityCard> {
 
   @override
   Widget build(BuildContext context) {
-    print("building activity card");
-    print("list length = " + _cardLength.toString());
 
     return SizedBox(
       height: MediaQuery.of(context).size.height - 220,
