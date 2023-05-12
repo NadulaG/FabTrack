@@ -45,14 +45,33 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+void sheetsRequest() async {}
+
 class _HomeState extends State<Home> {
   _MyHomePageState() {}
 
   final _spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
   int selectedPageIndex = 0;
 
+  void logRequest() async {
+    final http.Response response = await http.get(
+      Uri.parse(
+          'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Sheet1!A1:Z1000'),
+      headers: await widget.user.authHeaders,
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      print(data);
+    } else {
+      print(response.body);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    logRequest();
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -75,7 +94,7 @@ class _HomeState extends State<Home> {
                 color: const Color(0xFF4F525A),
                 borderRadius: const BorderRadius.all(Radius.circular(10))),
             child: Center(
-              child: Text('Status: Signed In',
+              child: Text('Status: Signed Out',
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.montserrat(

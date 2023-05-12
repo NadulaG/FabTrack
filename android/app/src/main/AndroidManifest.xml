@@ -3,6 +3,7 @@
     <uses-permission android:name="android.permission.NFC" />
     <!-- <uses-sdk android:minSdkVersion="10"/> -->
     <uses-feature android:name="android.hardware.nfc" android:required="true" />
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="fabtrack"
         android:name="${applicationName}"

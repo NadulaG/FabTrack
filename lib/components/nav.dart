@@ -29,7 +29,6 @@ class _NavState extends State<Nav> {
   void initState() {
     _children = [
       Home(user: widget.user),
-      const Text('Search'),
       Profile(user: widget.user),
     ];
   }
@@ -37,35 +36,56 @@ class _NavState extends State<Nav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(79, 82, 90, 1),
-      body: _children.elementAt(_selectedIndex),
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: const Color(0xFF80838B),
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: onDestinationSelected,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home),
-            label: 'Home',
+        backgroundColor: const Color.fromRGBO(79, 82, 90, 1),
+        body: _children.elementAt(_selectedIndex),
+        bottomNavigationBar: NavigationBar(
+          backgroundColor: const Color(0xFF80838B),
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: onDestinationSelected,
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     Home.getKey().currentState!.stateAddCard();
+        //   },
+        //   backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
+        //   child: const Icon(Icons.add),
+        // ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        floatingActionButton:
+            Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+          FloatingActionButton(
+            backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) {
+                  throw UnimplementedError();
+                }
+              ));
+            },
+            heroTag: null,
+            child: const Icon(Icons.login),
           ),
-          NavigationDestination(
-            icon: Icon(Icons.search),
-            label: 'Search',
+          const SizedBox(
+            height: 10,
           ),
-          NavigationDestination(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Home.getKey().currentState!.stateAddCard();
-        },
-        backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-    );
+          FloatingActionButton(
+            backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
+            onPressed: () {
+              Home.getKey().currentState!.stateAddCard();
+            },
+            heroTag: null,
+            child: const Icon(Icons.add),
+          )
+        ]));
   }
 }
