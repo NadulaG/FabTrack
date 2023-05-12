@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../pages/home.dart';
 import '../pages/profile.dart';
+import '../pages/check_in.dart';
 
 class Nav extends StatefulWidget {
   final GoogleSignInAccount user;
@@ -29,7 +30,7 @@ class _NavState extends State<Nav> {
   void initState() {
     _children = [
       Home(user: widget.user),
-      const Text('Search'),
+      CheckIn(user: widget.user),
       Profile(user: widget.user),
     ];
   }
