@@ -54,7 +54,6 @@ class _HomeState extends State<Home> {
   int _counter = 0;
 
   _MyHomePageState() {
-    print("constructer is constructing");
   }
 
   final _spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
