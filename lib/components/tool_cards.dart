@@ -14,8 +14,7 @@ class ActivityCard extends StatefulWidget {
 class ActivityCardState extends State<ActivityCard> {
   int _cardLength = 0;
 
-  ActivityCardState() {
-  }
+  ActivityCardState() {}
 
   stateAddCard() {
     _cardLength += 1;
@@ -24,7 +23,6 @@ class ActivityCardState extends State<ActivityCard> {
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       height: MediaQuery.of(context).size.height - 220,
       child: ListView.builder(
@@ -48,6 +46,7 @@ class ActivityCardState extends State<ActivityCard> {
                   decoration: const BoxDecoration(
                       color: Color(0xFFF4C300),
                       borderRadius: BorderRadius.all(Radius.circular(20))),
+                      
                 ),
               ),
             );
