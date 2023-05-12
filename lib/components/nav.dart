@@ -54,24 +54,14 @@ class _NavState extends State<Nav> {
             ),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     Home.getKey().currentState!.stateAddCard();
-        //   },
-        //   backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
-        //   child: const Icon(Icons.add),
-        // ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         floatingActionButton:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: [
           FloatingActionButton(
             backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) {
-                  throw UnimplementedError();
-                }
-              ));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return CheckIn(user: widget.user);
+              }));
             },
             heroTag: null,
             child: const Icon(Icons.login),
