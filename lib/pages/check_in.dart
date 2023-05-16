@@ -33,27 +33,41 @@ class CheckIn extends StatelessWidget {
             color: const Color(0xFF4F525A),
             borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Center(
+            child: Column(children: [
+          Container(
+            margin: const EdgeInsets.only(top: 10),
             child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(right: 10),
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(user.photoUrl?.toString() ??
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232'),
-                radius: 24,
-              ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(user.photoUrl?.toString() ??
+                        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232'),
+                    radius: 24,
+                  ),
+                ),
+                Text(
+                  user.displayName!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              user.displayName!,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        )),
+          ),
+          Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height-135,
+              child: ListView(
+                children: [
+
+                ],
+              )
+              )
+        ])),
       ),
     );
   }
