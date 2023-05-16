@@ -47,12 +47,21 @@ class CheckIn extends StatelessWidget {
                     radius: 24,
                   ),
                 ),
-                Text(
-                  user.displayName!,
+
+                // margin: const EdgeInsets.only(bottom: 10),
+                DefaultTextStyle(
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
+                  ),
+                  child: Text(
+                    user.displayName!,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
@@ -78,34 +87,73 @@ class CheckIn extends StatelessWidget {
                           ),
                         )),
                   ),
-                  Material(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      child: DropdownButtonFormField(
-                        value: null,
-                        items: ['Eric', 'Clara', 'Ethan', 'Nadula']
-                            .map((String value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        decoration: const InputDecoration(
-                          fillColor: Color(0xFF80838B),
-                          filled: true,
-                          border: UnderlineInputBorder(),
-                          labelText: 'Host',
-                        ),
-                        onChanged: (value) => print("dropdown selected"),
-                      )),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: DropdownButtonFormField(
+                          value: null,
+                          items: ['Eric', 'Clara', 'Ethan'].map((String value) {
+                            return DropdownMenuItem(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          decoration: const InputDecoration(
+                            fillColor: Color(0xFF80838B),
+                            filled: true,
+                            border: UnderlineInputBorder(),
+                            labelText: 'Host',
+                          ),
+                          onChanged: (value) => print("dropdown selected"),
+                        )),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: DropdownButtonFormField(
+                          value: null,
+                          items: [
+                            'Classroom Space',
+                            'Maker Space',
+                            '3D Printers',
+                            'Glowforge',
+                            'Crafts Area',
+                            'Woodshop',
+                            'Metalshop'
+                          ].map((String value) {
+                            return DropdownMenuItem(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          decoration: const InputDecoration(
+                            fillColor: Color(0xFF80838B),
+                            filled: true,
+                            border: UnderlineInputBorder(),
+                            labelText: 'Space Used',
+                          ),
+                          onChanged: (value) => print("dropdown selected"),
+                        )),
+                  ),
+                  Container(
                     decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 103, 255, 156),
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(10))),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
-                      child: Container(),
-                      onPressed: () => print("Submit Button Clicked"),
+                      child: Container(
+                          child: const Text(
+                        "Sign in to Fab Lab",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )),
+                      onPressed: () => {print("Submit Button Clicked")},
                     ),
                   ),
                 ],
