@@ -54,18 +54,33 @@ class _HomeState extends State<Home> {
   int selectedPageIndex = 0;
 
   void logRequest() async {
-    final http.Response response = await http.get(
+    final http.Response timesheet = await http.get(
       Uri.parse(
-          'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Sheet1!A1:Z1000'),
+          'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Timesheet!A1:Z1000'),
       headers: await widget.user.authHeaders,
     );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
+    final http.Response training = await http.get(
+      Uri.parse(
+          'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Training!A1:Z1000'),
+      headers: await widget.user.authHeaders,
+    );
+
+    if (timesheet.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(timesheet.body);
       print(data);
     } else {
-      print(response.body);
+      print(timesheet.body);
     }
+
+    if (training.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(training.body);
+      print(data);
+    } else {
+      print(training.body);
+    }
+
+
   }
 
   @override
