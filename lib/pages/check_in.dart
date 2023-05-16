@@ -93,7 +93,7 @@ class CheckIn extends StatelessWidget {
                           fillColor: Color(0xFF80838B),
                           filled: true,
                           border: UnderlineInputBorder(),
-                          labelText: 'TA Sponsor',
+                          labelText: 'Host',
                         ),
                         onChanged: (value) => print("dropdown selected"),
                       )),
