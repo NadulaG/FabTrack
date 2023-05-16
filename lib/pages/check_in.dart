@@ -59,14 +59,57 @@ class CheckIn extends StatelessWidget {
             ),
           ),
           Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-135,
+              height: MediaQuery.of(context).size.height - 135,
               child: ListView(
                 children: [
-
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            fillColor: Color(0xFF80838B),
+                            filled: true,
+                            border: UnderlineInputBorder(),
+                            labelText: 'Space Used',
+                          ),
+                        )),
+                  ),
+                  Material(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      child: DropdownButtonFormField(
+                        value: null,
+                        items: ['Eric', 'Clara', 'Ethan', 'Nadula']
+                            .map((String value) {
+                          return DropdownMenuItem(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        decoration: const InputDecoration(
+                          fillColor: Color(0xFF80838B),
+                          filled: true,
+                          border: UnderlineInputBorder(),
+                          labelText: 'TA Sponsor',
+                        ),
+                        onChanged: (value) => print("dropdown selected"),
+                      )),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 103, 255, 156),
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(10))),
+                    child: TextButton(
+                      child: Container(),
+                      onPressed: () => print("Submit Button Clicked"),
+                    ),
+                  ),
                 ],
-              )
-              )
+              ))
         ])),
       ),
     );
