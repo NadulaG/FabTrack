@@ -46,19 +46,30 @@ class _NavState extends State<Nav> {
     Widget cancelButton = TextButton(
       child: Text("Cancel"),
       onPressed: () {
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) {
-          return Nav(user: widget.user);
-        }));
+        Navigator.of(context).pop();
       },
     );
 
     Widget continueButton = TextButton(
       child: Text("Check out"),
-      onPressed: () {
+      onPressed: () async {
+        final http.Response signIn = await http.put(
+            Uri.parse(
+                'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!K$currentSignedInRow:K$currentSignedInRow?valueInputOption=RAW'),
+            headers: await widget.user.authHeaders,
+            body: json.encode({
+              "range": "Timesheet!K$currentSignedInRow:K$currentSignedInRow",
+              "majorDimension": "ROWS",
+              "values": [
+                [
+                  "${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour > 12 ? 'PM' : 'AM'}"
+                ]
+              ]
+            }));
         isCheckedIn = false;
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) {
+        currentSignedInRow = 0;
+        globalTools = [];
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return Nav(user: widget.user);
         }));
       },
