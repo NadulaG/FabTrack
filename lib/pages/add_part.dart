@@ -3,14 +3,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'auth/log_in.dart';
+import 'package:fabtrack/components/nav.dart';
+import 'package:fabtrack/globals.dart';
+
 
 class AddPart extends StatelessWidget {
   /*
   Handles both checking in and out of the Fab Lab
   */
-  const AddPart({Key? key, required this.user}) : super(key: key);
-  final GoogleSignInAccount
-      user; // not sure if you actually need this, just did it because other pages had it
+  String textContent = "";
+  AddPart({Key? key, required this.user}) : super(key: key);
+  final GoogleSignInAccount user; // google oauth user
+  
+
+  void addTool(context) {
+    globalTools.add({"name": textContent, "skill level":1});
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return Nav(user: user);
+    }));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +90,10 @@ class AddPart extends StatelessWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                         child: TextFormField(
+                          onChanged: (text) {
+                            textContent = text;
+                            print("text is now: " + text);
+                          },
                           decoration: const InputDecoration(
                             fillColor: Color(0xFF80838B),
                             filled: true,
@@ -102,7 +117,9 @@ class AddPart extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       )),
-                      onPressed: () => {print("Submit Button Clicked")},
+                      onPressed: () => {
+                        addTool(context)
+                        },
                     ),
                   ),
                 ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fabtrack/globals.dart';
 
 class ActivityCard extends StatelessWidget {
   List cardsList = [];
