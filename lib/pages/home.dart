@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
@@ -12,6 +13,10 @@ import '../components/nav.dart';
 import '../components/tool_cards.dart';
 import 'package:fabtrack/globals.dart';
 import '../utils.dart';
+
+import '../pages/check_in.dart';
+
+import 'package:nfc_manager/nfc_manager.dart';
 
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
@@ -51,6 +56,39 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    void runNFC(context) async {
+      // Check availability
+      bool isAvailable = await NfcManager.instance.isAvailable();
+      print("is available?: ");
+      print(isAvailable);
+
+      // Start Session
+      NfcManager.instance.startSession(
+        onError: (error) async {
+          print("error: ");
+          print(error);
+        },
+        onDiscovered: (NfcTag tag) async {
+          print(tag.data["nfca"]["identifier"]);
+          if (listEquals(tag.data["nfca"]["identifier"],
+              [4, 148, 88, 162, 136, 50, 128])) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return CheckIn(user: widget.user);
+            }));
+            print("ITS A MIRACLE");
+            print(tag.data["nfca"]["identifier"]);
+          } else {
+            print("not fab lab L");
+            print(tag.data["nfca"]["identifier"]);
+          }
+        },
+      );
+
+      // Stop Session
+      // NfcManager.instance.stopSession();
+    }
+
+    runNFC(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
