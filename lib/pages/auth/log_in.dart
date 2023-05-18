@@ -9,6 +9,8 @@ class Login extends StatelessWidget {
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
     'email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/contacts.readonly',
     'https://www.googleapis.com/auth/spreadsheets',
   ]);
 
@@ -17,6 +19,11 @@ class Login extends StatelessWidget {
     logIn() async {
       try {
         await _googleSignIn.signIn().then((user) {
+          // user!.authentication.then((auth) {
+          //   print(auth.idToken);
+          //   print(auth.accessToken);
+          // });
+
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => Nav(user: user!),

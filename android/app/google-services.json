@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "445029279343",
+    "project_id": "fabtrack-146f6",
+    "storage_bucket": "fabtrack-146f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445029279343:android:e1fa85bfaf085641470f9a",
+        "android_client_info": {
+          "package_name": "com.example.fabtrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445029279343-qqpikn0d0smr7slliuk9ugqa0gtiehs3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fabtrack",
+            "certificate_hash": "5c198027d00b49f22ad8db389206aa559e8575a8"
+          }
+        },
+        {
+          "client_id": "445029279343-4sdhm67o03nr7rtmckpgt5k2crn175ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4QkRApHzXZg3pYy02sjoPBrTD2ea92xQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445029279343-4sdhm67o03nr7rtmckpgt5k2crn175ma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
