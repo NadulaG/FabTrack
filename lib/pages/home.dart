@@ -59,27 +59,14 @@ class _HomeState extends State<Home> {
     void runNFC(context) async {
       // Check availability
       bool isAvailable = await NfcManager.instance.isAvailable();
-      print("is available?: ");
-      print(isAvailable);
-
       // Start Session
       NfcManager.instance.startSession(
-        onError: (error) async {
-          print("error: ");
-          print(error);
-        },
         onDiscovered: (NfcTag tag) async {
-          print(tag.data["nfca"]["identifier"]);
           if (listEquals(tag.data["nfca"]["identifier"],
               [4, 148, 88, 162, 136, 50, 128])) {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
               return CheckIn(user: widget.user);
             }));
-            print("ITS A MIRACLE");
-            print(tag.data["nfca"]["identifier"]);
-          } else {
-            print("not fab lab L");
-            print(tag.data["nfca"]["identifier"]);
           }
         },
       );

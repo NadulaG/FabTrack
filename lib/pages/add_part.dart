@@ -113,7 +113,6 @@ class AddPart extends StatelessWidget {
                         child: TextFormField(
                           onChanged: (text) {
                             textContent = text;
-                            print("text is now: " + text);
                           },
                           decoration: const InputDecoration(
                             fillColor: Color(0xFF80838B),
