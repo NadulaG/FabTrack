@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert' show json;
+
 import 'auth/log_in.dart';
 import 'package:fabtrack/components/nav.dart';
 import 'package:fabtrack/globals.dart';
-
 
 class AddPart extends StatelessWidget {
   /*
@@ -14,10 +16,29 @@ class AddPart extends StatelessWidget {
   String textContent = "";
   AddPart({Key? key, required this.user}) : super(key: key);
   final GoogleSignInAccount user; // google oauth user
-  
 
-  void addTool(context) {
-    globalTools.add({"name": textContent, "skill level":1});
+  void addTool(context) async {
+    globalTools.add({
+      "name": textContent,
+      "time":
+          "${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour > 12 ? 'PM' : 'AM'}"
+    });
+
+    final http.Response signIn = await http.put(
+                        Uri.parse(
+                            'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!H$currentSignedInRow:H$currentSignedInRow?valueInputOption=RAW'),
+                        headers: await user.authHeaders,
+                        body: json.encode({
+                          "range":
+                              "Timesheet!H$currentSignedInRow:H$currentSignedInRow",
+                          "majorDimension": "ROWS",
+                          "values": [
+                            [
+                              globalTools.toString()
+                            ]
+                          ]
+                        }));
+    
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return Nav(user: user);
     }));
@@ -102,7 +123,6 @@ class AddPart extends StatelessWidget {
                           ),
                         )),
                   ),
-
                   Container(
                     decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 103, 255, 156),
@@ -117,9 +137,7 @@ class AddPart extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       )),
-                      onPressed: () => {
-                        addTool(context)
-                        },
+                      onPressed: () => {addTool(context)},
                     ),
                   ),
                 ],

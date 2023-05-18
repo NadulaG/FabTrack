@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert' show json;
+
 import '../pages/home.dart';
 import '../pages/profile.dart';
 import '../pages/check_in.dart';
 import '../pages/add_part.dart';
 import '../components/tool_cards.dart';
 
-import '../globals.dart';
+import 'package:fabtrack/globals.dart';
 
 class Nav extends StatefulWidget {
   final GoogleSignInAccount user;
@@ -60,27 +63,52 @@ class _NavState extends State<Nav> {
         ),
         floatingActionButton:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          !isSignedIn ? FloatingActionButton(
-            backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return CheckIn(user: widget.user);
-              }));
-            },
-            heroTag: null,
-            child: const Icon(Icons.login),
-          ) : SizedBox(),
+          !isSignedIn
+              ? FloatingActionButton(
+                  backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return CheckIn(user: widget.user);
+                    }));
+                  },
+                  heroTag: null,
+                  child: const Icon(Icons.login),
+                )
+              : SizedBox(),
           const SizedBox(
             height: 10,
           ),
-          isSignedIn ? FloatingActionButton(
-            backgroundColor: const Color.fromARGB(255, 148, 52, 52),
-            onPressed: () {
-              isSignedIn = false;
-            },
-            heroTag: null,
-            child: const Icon(Icons.login),
-          ) : SizedBox(),
+          isSignedIn
+              ? FloatingActionButton(
+                  backgroundColor: const Color.fromARGB(255, 148, 52, 52),
+                  onPressed: () async {
+                    final http.Response signIn = await http.put(
+                        Uri.parse(
+                            'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!K$currentSignedInRow:K$currentSignedInRow?valueInputOption=RAW'),
+                        headers: await widget.user.authHeaders,
+                        body: json.encode({
+                          "range":
+                              "Timesheet!K$currentSignedInRow:K$currentSignedInRow",
+                          "majorDimension": "ROWS",
+                          "values": [
+                            [
+                              "${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour > 12 ? 'PM' : 'AM'}"
+                            ]
+                          ]
+                        }));
+                    isSignedIn = false;
+                    currentSignedInRow = 0;
+                    globalTools = [];
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return Nav(user: widget.user);
+                    }));
+                  },
+                  heroTag: null,
+                  child: const Icon(Icons.login),
+                )
+              : SizedBox(),
           const SizedBox(
             height: 10,
           ),

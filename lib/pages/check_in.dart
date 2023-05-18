@@ -19,8 +19,6 @@ class CheckIn extends StatelessWidget {
   final GoogleSignInAccount
       user; // not sure if you actually need this, just did it because other pages had it
 
-  final _spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
-
   late String studentGroup;
   late String activity;
   late String host;
@@ -39,26 +37,26 @@ class CheckIn extends StatelessWidget {
 
         final http.Response timesheet = await http.get(
           Uri.parse(
-              'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Timesheet!A1:Z1000'),
+              'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A1:Z1000'),
           headers: await user.authHeaders,
         );
 
         final http.Response training = await http.get(
           Uri.parse(
-              'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Training!A1:Z1000'),
+              'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Training!A1:Z1000'),
           headers: await user.authHeaders,
         );
 
         if (timesheet.statusCode == 200) {
           final Map<String, dynamic> data = json.decode(timesheet.body);
-          int newRow = data.values.elementAt(2).length + 1;
+          currentSignedInRow = data.values.elementAt(2).length + 1;
 
           final http.Response signIn = await http.put(
               Uri.parse(
-                  'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Timesheet!A$newRow:J$newRow?valueInputOption=RAW'),
+                  'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A$currentSignedInRow:J$currentSignedInRow?valueInputOption=RAW'),
               headers: await user.authHeaders,
               body: json.encode({
-                "range": "Timesheet!A$newRow:J$newRow",
+                "range": "Timesheet!A$currentSignedInRow:J$currentSignedInRow",
                 "majorDimension": "ROWS",
                 "values": [
                   [

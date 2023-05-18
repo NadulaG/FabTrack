@@ -19,11 +19,6 @@ class Login extends StatelessWidget {
     logIn() async {
       try {
         await _googleSignIn.signIn().then((user) {
-          // user!.authentication.then((auth) {
-          //   print(auth.idToken);
-          //   print(auth.accessToken);
-          // });
-
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => Nav(user: user!),
