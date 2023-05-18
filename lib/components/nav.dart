@@ -5,6 +5,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../pages/home.dart';
 import '../pages/profile.dart';
 import '../pages/check_in.dart';
+import '../pages/add_part.dart';
+import '../components/tool_cards.dart';
 
 class Nav extends StatefulWidget {
   final GoogleSignInAccount user;
@@ -72,7 +74,9 @@ class _NavState extends State<Nav> {
           FloatingActionButton(
             backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
             onPressed: () {
-              print("do thing to recall constructor with all new cards");
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return AddPart(user: widget.user);
+              }));
             },
             heroTag: null,
             child: const Icon(Icons.add),

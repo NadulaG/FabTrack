@@ -10,7 +10,7 @@ import 'auth/log_in.dart';
 import '../components/nav.dart';
 
 import '../components/tool_cards.dart';
-
+import 'package:fabtrack/globals.dart';
 import '../utils.dart';
 
 MaterialColor createMaterialColor(Color color) {
@@ -84,7 +84,8 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        ActivityCard([1, 2, 3, 4]) // replace [] with actual cards
+        // [{"name": "hammer", "skill level":1}, {"name": "hacksaw", "skill level":50}]
+        ActivityCard(globalTools)
       ],
     );
   }
