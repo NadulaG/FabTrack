@@ -73,14 +73,15 @@ class _HomeState extends State<Home> {
                 color: const Color(0xFF4F525A),
                 borderRadius: const BorderRadius.all(Radius.circular(10))),
             child: Center(
-              child: Text('Status: Signed Out',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                    fontSize: 24,
-                  )),
+              child:
+                  Text(isSignedIn ? 'Status: Signed In' : 'Status: Signed Out',
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        fontSize: 24,
+                      )),
             ),
           ),
         ),

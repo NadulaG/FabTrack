@@ -8,6 +8,8 @@ import '../pages/check_in.dart';
 import '../pages/add_part.dart';
 import '../components/tool_cards.dart';
 
+import '../globals.dart';
+
 class Nav extends StatefulWidget {
   final GoogleSignInAccount user;
 
@@ -58,7 +60,7 @@ class _NavState extends State<Nav> {
         ),
         floatingActionButton:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          FloatingActionButton(
+          !isSignedIn ? FloatingActionButton(
             backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
@@ -67,20 +69,34 @@ class _NavState extends State<Nav> {
             },
             heroTag: null,
             child: const Icon(Icons.login),
-          ),
+          ) : SizedBox(),
           const SizedBox(
             height: 10,
           ),
-          FloatingActionButton(
-            backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
+          isSignedIn ? FloatingActionButton(
+            backgroundColor: const Color.fromARGB(255, 148, 52, 52),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return AddPart(user: widget.user);
-              }));
+              isSignedIn = false;
             },
             heroTag: null,
-            child: const Icon(Icons.add),
-          )
+            child: const Icon(Icons.login),
+          ) : SizedBox(),
+          const SizedBox(
+            height: 10,
+          ),
+          isSignedIn
+              ? FloatingActionButton(
+                  backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return AddPart(user: widget.user);
+                    }));
+                  },
+                  heroTag: null,
+                  child: const Icon(Icons.add),
+                )
+              : SizedBox(),
         ]));
   }
 }

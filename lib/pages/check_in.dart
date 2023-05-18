@@ -1,3 +1,4 @@
+import 'package:fabtrack/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' show json, base64Url, utf8;
 
 import 'auth/log_in.dart';
+import '../components/nav.dart';
 
 import '../utils.dart';
 
@@ -76,7 +78,11 @@ class CheckIn extends StatelessWidget {
 
           if (signIn.statusCode == 200) {
             print('Signed in');
-            Navigator.of(context).pop();
+            isSignedIn = true;
+            Navigator.of(context)
+                .pushReplacement(MaterialPageRoute(builder: (context) {
+              return Nav(user: user);
+            }));
           } else {
             print(signIn.body);
           }
