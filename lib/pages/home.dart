@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:http/http.dart' as http;
-import 'dart:convert' show json;
+import 'dart:convert' show json, base64Url, utf8;
 
 import 'auth/log_in.dart';
 import '../components/nav.dart';
@@ -54,6 +55,21 @@ class _HomeState extends State<Home> {
   int selectedPageIndex = 0;
 
   void logRequest() async {
+    final List<String> parts = await widget.user.authentication.then((auth) => auth.idToken!.split('.'));
+    if (parts.length != 3) {
+      return null;
+    }
+    // retrieve token payload
+    final String payload = parts[1];
+    final String normalized = base64Url.normalize(payload);
+    final String resp = utf8.decode(base64Url.decode(normalized));
+    // convert to Map
+    final payloadMap = json.decode(resp);
+    if (payloadMap is! Map<String, dynamic>) {
+      return null;
+    }
+    print(payloadMap["given_name"]);
+
     final http.Response timesheet = await http.get(
       Uri.parse(
           'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Timesheet!A1:Z1000'),
@@ -68,7 +84,25 @@ class _HomeState extends State<Home> {
 
     if (timesheet.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(timesheet.body);
-      print(data);
+      int newRow = data.values.elementAt(2).length + 1;
+
+      final http.Response signIn = await http.put(
+          Uri.parse(
+              'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Timesheet!A$newRow:B$newRow?valueInputOption=RAW'),
+          headers: await widget.user.authHeaders,
+          body: json.encode({
+            "range": "Timesheet!A$newRow:B$newRow",
+            "majorDimension": "ROWS",
+            "values": [
+              [widget.user.displayName, DateTime.now().toString()]
+            ]
+          }));
+
+      if (signIn.statusCode == 200) {
+        print('Signed in');
+      } else {
+        print(signIn.body);
+      }
     } else {
       print(timesheet.body);
     }
@@ -79,13 +113,13 @@ class _HomeState extends State<Home> {
     } else {
       print(training.body);
     }
-
-
   }
 
   @override
   Widget build(BuildContext context) {
     logRequest();
+
+    widget.user.authentication.then((value) => print("id token " + value.idToken.toString()));
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
