@@ -18,7 +18,7 @@ class AddPart extends StatelessWidget {
 
   void addTool(context) {
     globalTools.add({"name": textContent, "skill level":1});
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
       return Nav(user: user);
     }));
   }

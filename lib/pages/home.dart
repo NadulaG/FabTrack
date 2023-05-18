@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
                 borderRadius: const BorderRadius.all(Radius.circular(10))),
             child: Center(
               child:
-                  Text(isSignedIn ? 'Status: Signed In' : 'Status: Signed Out',
+                  Text(isCheckedIn ? 'Status: Signed In' : 'Status: Signed Out',
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.montserrat(

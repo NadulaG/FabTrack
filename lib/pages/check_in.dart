@@ -78,7 +78,7 @@ class CheckIn extends StatelessWidget {
 
           if (signIn.statusCode == 200) {
             print('Signed in');
-            isSignedIn = true;
+            isCheckedIn = true;
             Navigator.of(context)
                 .pushReplacement(MaterialPageRoute(builder: (context) {
               return Nav(user: user);

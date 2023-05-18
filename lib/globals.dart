@@ -1,4 +1,4 @@
 library globals;
 
-bool isSignedIn = false;
+bool isCheckedIn = false;
 List globalTools = [];
