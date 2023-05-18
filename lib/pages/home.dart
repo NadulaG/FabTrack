@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        ActivityCard([1,2,3,4]) // replace [] with actual cards
+        ActivityCard([{"name": "hammer", "skill level":1}, {"name": "hacksaw", "skill level":50}]) // replace [] with actual cards
       ],
     );
   }

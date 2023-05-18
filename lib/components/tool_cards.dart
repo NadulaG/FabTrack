@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ActivityCard extends StatelessWidget {
-  List cards = [];
+  List cardsList = [];
   ActivityCard(List cardsInput) {
-    cards = cardsInput;
+    cardsList = cardsInput;
+  }
+
+  void addCard(var card) {
+    cardsList.add(card);
   }
 
   @override
@@ -12,7 +17,7 @@ class ActivityCard extends StatelessWidget {
     return SizedBox(
       height: MediaQuery.of(context).size.height - 220,
       child: ListView.builder(
-          itemCount: 12, // cardList.length,
+          itemCount: cardsList.length, // cardList.length,
           itemBuilder: (BuildContext context, int index) {
             // Build the widget of the CardState[index] and return it
 
@@ -37,7 +42,7 @@ class ActivityCard extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                         child: Text(
-                          'yooo',
+                          cardsList[index]["name"],
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.clip,
                           style: GoogleFonts.montserrat(
