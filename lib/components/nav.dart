@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert' show json;
+
 import '../pages/home.dart';
 import '../pages/profile.dart';
 import '../pages/check_in.dart';
 import '../pages/add_part.dart';
 import '../components/tool_cards.dart';
 
-import '../globals.dart';
+import 'package:fabtrack/globals.dart';
 
 class Nav extends StatefulWidget {
   final GoogleSignInAccount user;
