@@ -11,6 +11,8 @@ import '../components/nav.dart';
 
 import '../components/tool_cards.dart';
 
+import '../utils.dart';
+
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
   Map<int, Color> swatch = {};
@@ -45,76 +47,10 @@ void sheetsRequest() async {}
 class _HomeState extends State<Home> {
   _MyHomePageState() {}
 
-  final _spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
   int selectedPageIndex = 0;
-
-  void logRequest() async {
-    final List<String> parts = await widget.user.authentication.then((auth) => auth.idToken!.split('.'));
-    if (parts.length != 3) {
-      return null;
-    }
-    // retrieve token payload
-    final String payload = parts[1];
-    final String normalized = base64Url.normalize(payload);
-    final String resp = utf8.decode(base64Url.decode(normalized));
-    // convert to Map
-    final payloadMap = json.decode(resp);
-    if (payloadMap is! Map<String, dynamic>) {
-      return null;
-    }
-    print(payloadMap["given_name"]);
-
-    final http.Response timesheet = await http.get(
-      Uri.parse(
-          'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Timesheet!A1:Z1000'),
-      headers: await widget.user.authHeaders,
-    );
-
-    final http.Response training = await http.get(
-      Uri.parse(
-          'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Training!A1:Z1000'),
-      headers: await widget.user.authHeaders,
-    );
-
-    if (timesheet.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(timesheet.body);
-      int newRow = data.values.elementAt(2).length + 1;
-
-      final http.Response signIn = await http.put(
-          Uri.parse(
-              'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Timesheet!A$newRow:B$newRow?valueInputOption=RAW'),
-          headers: await widget.user.authHeaders,
-          body: json.encode({
-            "range": "Timesheet!A$newRow:B$newRow",
-            "majorDimension": "ROWS",
-            "values": [
-              [widget.user.displayName, DateTime.now().toString()]
-            ]
-          }));
-
-      if (signIn.statusCode == 200) {
-        print('Signed in');
-      } else {
-        print(signIn.body);
-      }
-    } else {
-      print(timesheet.body);
-    }
-
-    if (training.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(training.body);
-      print(data);
-    } else {
-      print(training.body);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    logRequest();
-
-    widget.user.authentication.then((value) => print("id token " + value.idToken.toString()));
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -148,7 +84,7 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        ActivityCard([1,2,3,4]) // replace [] with actual cards
+        ActivityCard([1, 2, 3, 4]) // replace [] with actual cards
       ],
     );
   }

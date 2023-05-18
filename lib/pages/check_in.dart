@@ -2,18 +2,92 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert' show json, base64Url, utf8;
+
 import 'auth/log_in.dart';
+
+import '../utils.dart';
 
 class CheckIn extends StatelessWidget {
   /*
   Handles both checking in and out of the Fab Lab
   */
-  const CheckIn({Key? key, required this.user}) : super(key: key);
+  CheckIn({Key? key, required this.user}) : super(key: key);
   final GoogleSignInAccount
       user; // not sure if you actually need this, just did it because other pages had it
 
+  final _spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
+
+  late String studentGroup;
+  late String activity;
+  late String host;
+  late String spaceUsed;
+
   @override
   Widget build(BuildContext context) {
+    void check_in() async {
+      print("Checking in");
+
+      try {
+        final List<String> parts =
+            await user.authentication.then((auth) => auth.idToken!.split('.'));
+        Map<String, dynamic>? idMap =
+            parseJwt(await user.authentication.then((auth) => auth.idToken!));
+
+        final http.Response timesheet = await http.get(
+          Uri.parse(
+              'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Timesheet!A1:Z1000'),
+          headers: await user.authHeaders,
+        );
+
+        final http.Response training = await http.get(
+          Uri.parse(
+              'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Training!A1:Z1000'),
+          headers: await user.authHeaders,
+        );
+
+        if (timesheet.statusCode == 200) {
+          final Map<String, dynamic> data = json.decode(timesheet.body);
+          int newRow = data.values.elementAt(2).length + 1;
+
+          final http.Response signIn = await http.put(
+              Uri.parse(
+                  'https://sheets.googleapis.com/v4/spreadsheets/$_spreadsheetId/values/Timesheet!A$newRow:J$newRow?valueInputOption=RAW'),
+              headers: await user.authHeaders,
+              body: json.encode({
+                "range": "Timesheet!A$newRow:J$newRow",
+                "majorDimension": "ROWS",
+                "values": [
+                  [
+                    idMap!["given_name"],
+                    idMap["family_name"],
+                    host.split(' ')[0],
+                    host.split(' ')[1],
+                    studentGroup,
+                    spaceUsed,
+                    activity,
+                    "N/A",
+                    "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}",
+                    "${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour > 12 ? 'PM' : 'AM'}"
+                  ]
+                ]
+              }));
+
+          if (signIn.statusCode == 200) {
+            print('Signed in');
+            Navigator.of(context).pop();
+          } else {
+            print(signIn.body);
+          }
+        } else {
+          print(timesheet.body);
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
+
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 140.0,
@@ -83,8 +157,24 @@ class CheckIn extends StatelessWidget {
                             fillColor: Color(0xFF80838B),
                             filled: true,
                             border: UnderlineInputBorder(),
-                            labelText: 'Space Used',
+                            labelText: 'Student Group',
                           ),
+                          onChanged: (value) => studentGroup = value,
+                        )),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            fillColor: Color(0xFF80838B),
+                            filled: true,
+                            border: UnderlineInputBorder(),
+                            labelText: 'Activity',
+                          ),
+                          onChanged: (value) => activity = value,
                         )),
                   ),
                   Container(
@@ -94,7 +184,17 @@ class CheckIn extends StatelessWidget {
                             const BorderRadius.all(Radius.circular(10)),
                         child: DropdownButtonFormField(
                           value: null,
-                          items: ['Eric', 'Clara', 'Ethan'].map((String value) {
+                          items: [
+                            'Ashe Sonntag',
+                            'Bobby McAdams',
+                            'Cannon Rich',
+                            'Clara Sadowski',
+                            'Eric Apostal',
+                            'Ethan Winebarger',
+                            'Nadula Gardiyehewa',
+                            'Min Green',
+                            'Pratham Madaram'
+                          ].map((String value) {
                             return DropdownMenuItem(
                               value: value,
                               child: Text(value),
@@ -106,7 +206,7 @@ class CheckIn extends StatelessWidget {
                             border: UnderlineInputBorder(),
                             labelText: 'Host',
                           ),
-                          onChanged: (value) => print("dropdown selected"),
+                          onChanged: (value) => host = value.toString(),
                         )),
                   ),
                   Container(
@@ -136,7 +236,7 @@ class CheckIn extends StatelessWidget {
                             border: UnderlineInputBorder(),
                             labelText: 'Space Used',
                           ),
-                          onChanged: (value) => print("dropdown selected"),
+                          onChanged: (value) => spaceUsed = value.toString(),
                         )),
                   ),
                   Container(
@@ -144,6 +244,9 @@ class CheckIn extends StatelessWidget {
                         color: Color.fromARGB(255, 103, 255, 156),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
+                      onPressed: () {
+                        check_in();
+                      },
                       child: Container(
                           child: const Text(
                         "Sign in to Fab Lab",
@@ -153,7 +256,6 @@ class CheckIn extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       )),
-                      onPressed: () => {print("Submit Button Clicked")},
                     ),
                   ),
                 ],
