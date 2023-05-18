@@ -1,25 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ActivityCard extends StatefulWidget {
-  final ActivityCardState cardState = ActivityCardState();
-
-  ActivityCard({
-    super.key,
-  });
-
-  @override
-  State<ActivityCard> createState() => ActivityCardState();
-}
-
-class ActivityCardState extends State<ActivityCard> {
-  int _cardLength = 0;
-
-  ActivityCardState() {}
-
-  stateAddCard() {
-    _cardLength += 1;
-    setState(() {});
+class ActivityCard extends StatelessWidget {
+  List cards = [];
+  ActivityCard(List cardsInput) {
+    cards = cardsInput;
   }
 
   @override
@@ -27,7 +12,7 @@ class ActivityCardState extends State<ActivityCard> {
     return SizedBox(
       height: MediaQuery.of(context).size.height - 220,
       child: ListView.builder(
-          itemCount: _cardLength, // cardList.length,
+          itemCount: 12, // cardList.length,
           itemBuilder: (BuildContext context, int index) {
             // Build the widget of the CardState[index] and return it
 
@@ -56,10 +41,10 @@ class ActivityCardState extends State<ActivityCard> {
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.clip,
                           style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 18,
-                      ),
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),

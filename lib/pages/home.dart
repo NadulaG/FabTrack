@@ -31,16 +31,10 @@ MaterialColor createMaterialColor(Color color) {
   return MaterialColor(color.value, swatch);
 }
 
-GlobalKey<ActivityCardState> homeKey = GlobalKey<ActivityCardState>();
-
 class Home extends StatefulWidget {
   final GoogleSignInAccount user;
 
   const Home({Key? key, required this.user}) : super(key: key);
-
-  static GlobalKey<ActivityCardState> getKey() {
-    return homeKey;
-  }
 
   @override
   State<Home> createState() => _HomeState();
@@ -154,7 +148,7 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        ActivityCard(key: homeKey)
+        ActivityCard([1,2,3,4]) // replace [] with actual cards
       ],
     );
   }

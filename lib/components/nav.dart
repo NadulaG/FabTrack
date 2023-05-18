@@ -72,7 +72,7 @@ class _NavState extends State<Nav> {
           FloatingActionButton(
             backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
             onPressed: () {
-              Home.getKey().currentState!.stateAddCard();
+              print("do thing to recall constructor with all new cards");
             },
             heroTag: null,
             child: const Icon(Icons.add),
