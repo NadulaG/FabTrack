@@ -24,71 +24,73 @@ class CheckIn extends StatelessWidget {
   late String host;
   late String spaceUsed;
 
+  bool signingIn = false;
+
   @override
   Widget build(BuildContext context) {
     void check_in() async {
-      print("Checking in");
+      if (!signingIn) {
+        signingIn = true;
+        
+        print("Checking in");
 
-      try {
-        final List<String> parts =
-            await user.authentication.then((auth) => auth.idToken!.split('.'));
-        Map<String, dynamic>? idMap =
-            parseJwt(await user.authentication.then((auth) => auth.idToken!));
+        try {
+          final List<String> parts =
+              await user.authentication.then((auth) => auth.idToken!.split('.'));
+          Map<String, dynamic>? idMap =
+              parseJwt(await user.authentication.then((auth) => auth.idToken!));
 
-        final http.Response timesheet = await http.get(
-          Uri.parse(
-              'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A1:Z1000'),
-          headers: await user.authHeaders,
-        );
+          final http.Response timesheet = await http.get(
+            Uri.parse(
+                'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A1:Z1000'),
+            headers: await user.authHeaders,
+          );
 
-        final http.Response training = await http.get(
-          Uri.parse(
-              'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Training!A1:Z1000'),
-          headers: await user.authHeaders,
-        );
+          if (timesheet.statusCode == 200) {
+            final Map<String, dynamic> data = json.decode(timesheet.body);
+            currentSignedInRow = data.values.elementAt(2).length + 1;
 
-        if (timesheet.statusCode == 200) {
-          final Map<String, dynamic> data = json.decode(timesheet.body);
-          currentSignedInRow = data.values.elementAt(2).length + 1;
-
-          final http.Response signIn = await http.put(
-              Uri.parse(
-                  'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A$currentSignedInRow:J$currentSignedInRow?valueInputOption=RAW'),
-              headers: await user.authHeaders,
-              body: json.encode({
-                "range": "Timesheet!A$currentSignedInRow:J$currentSignedInRow",
-                "majorDimension": "ROWS",
-                "values": [
-                  [
-                    idMap!["given_name"],
-                    idMap["family_name"],
-                    host.split(' ')[0],
-                    host.split(' ')[1],
-                    studentGroup,
-                    spaceUsed,
-                    activity,
-                    "N/A",
-                    "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}",
-                    "${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour > 12 ? 'PM' : 'AM'}"
+            final http.Response signIn = await http.put(
+                Uri.parse(
+                    'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A$currentSignedInRow:J$currentSignedInRow?valueInputOption=RAW'),
+                headers: await user.authHeaders,
+                body: json.encode({
+                  "range": "Timesheet!A$currentSignedInRow:J$currentSignedInRow",
+                  "majorDimension": "ROWS",
+                  "values": [
+                    [
+                      idMap!["given_name"],
+                      idMap["family_name"],
+                      host.split(' ')[0],
+                      host.split(' ')[1],
+                      studentGroup,
+                      spaceUsed,
+                      activity,
+                      "N/A",
+                      "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}",
+                      "${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour > 12 ? 'PM' : 'AM'}"
+                    ]
                   ]
-                ]
-              }));
+                }));
 
-          if (signIn.statusCode == 200) {
-            print('Signed in');
-            isCheckedIn = true;
-            Navigator.of(context)
-                .pushReplacement(MaterialPageRoute(builder: (context) {
-              return Nav(user: user);
-            }));
+            if (signIn.statusCode == 200) {
+              print('Signed in');
+              isCheckedIn = true;
+              Navigator.of(context)
+                  .pushReplacement(MaterialPageRoute(builder: (context) {
+                return Nav(user: user);
+              }));
+            } else {
+              print(signIn.body);
+            }
           } else {
-            print(signIn.body);
+            print(timesheet.body);
           }
-        } else {
-          print(timesheet.body);
+        } catch (e) {
+          print(e);
         }
-      } catch (e) {
-        print(e);
+
+        signingIn = false;
       }
     }
 
