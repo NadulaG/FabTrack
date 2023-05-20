@@ -6,6 +6,7 @@ import 'package:fabtrack/globals.dart';
 import 'package:fabtrack/utils.dart';
 
 import '../pages/home.dart';
+import '../pages/auth/log_in.dart';
 import '../pages/profile.dart';
 import '../pages/check_in.dart';
 import '../pages/add_tool.dart';
@@ -88,6 +89,16 @@ class _NavState extends State<Nav> {
 
   @override
   Widget build(BuildContext context) {
+    /// Logs out and navigates to the login page.
+    void logOut() async {
+      googleSignIn.signOut().then((_) => {
+            Navigator.of(context)
+                .pushReplacement(MaterialPageRoute(builder: (context) {
+              return const Login();
+            }))
+          });
+    }
+
     return Scaffold(
         backgroundColor: const Color.fromRGBO(79, 82, 90, 1),
         body: _children.elementAt(_selectedIndex),
@@ -108,7 +119,7 @@ class _NavState extends State<Nav> {
         ),
         floatingActionButton:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          !isCheckedIn
+          !isCheckedIn && _children.elementAt(_selectedIndex) is Home
               ? FloatingActionButton(
                   backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
                   onPressed: () {
@@ -124,7 +135,7 @@ class _NavState extends State<Nav> {
           const SizedBox(
             height: 10,
           ),
-          isCheckedIn
+          isCheckedIn && _children.elementAt(_selectedIndex) is Home
               ? FloatingActionButton(
                   backgroundColor: const Color.fromARGB(255, 148, 52, 52),
                   onPressed: () {
@@ -137,7 +148,7 @@ class _NavState extends State<Nav> {
           const SizedBox(
             height: 10,
           ),
-          isCheckedIn
+          isCheckedIn && _children.elementAt(_selectedIndex) is Home
               ? FloatingActionButton(
                   backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
                   onPressed: () {
@@ -150,6 +161,16 @@ class _NavState extends State<Nav> {
                   child: const Icon(Icons.add),
                 )
               : const SizedBox(),
+          _children.elementAt(_selectedIndex) is Profile
+              ? FloatingActionButton(
+                  backgroundColor: const Color.fromARGB(255, 148, 52, 52),
+                  onPressed: () {
+                    logOut();
+                  },
+                  heroTag: null,
+                  child: const Icon(Icons.logout),
+                )
+              : const SizedBox()
         ]));
   }
 }

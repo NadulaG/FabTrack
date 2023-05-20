@@ -12,30 +12,18 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// Logs out and navigates to the login page.
-    logOut() async {
-      googleSignIn.signOut().then((_) => {
-            Navigator.of(context)
-                .pushReplacement(MaterialPageRoute(builder: (context) {
-              return const Login();
-            }))
-          });
-    }
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
           height: 140.0,
-
           decoration: BoxDecoration(
               border: Border.all(
                 color: const Color(0xFF80838B),
               ),
               color: const Color(0xFF80838B),
               borderRadius: const BorderRadius.all(Radius.circular(10))),
-
           child: Container(
             margin: const EdgeInsets.fromLTRB(10, 60, 10, 10),
             decoration: BoxDecoration(
@@ -68,18 +56,6 @@ class Profile extends StatelessWidget {
             )),
           ),
         ),
-        ElevatedButton.icon(
-            onPressed: logOut,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 148, 52, 52),
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.all(12.0),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              ),
-            ),
-            icon: const Icon(Icons.logout),
-            label: const Text('Log out'))
       ],
     );
   }
