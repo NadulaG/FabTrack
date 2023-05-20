@@ -112,22 +112,22 @@ class _NavState extends State<Nav> {
         ),
         floatingActionButton:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          !isCheckedIn
-              ? FloatingActionButton(
-                  backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return CheckIn(user: widget.user);
-                    }));
-                  },
-                  heroTag: null,
-                  child: const Icon(Icons.login),
-                )
-              : SizedBox(),
-          const SizedBox(
-            height: 10,
-          ),
+          // !isCheckedIn
+          //     ? FloatingActionButton(
+          //         backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
+          //         onPressed: () {
+          //           Navigator.of(context)
+          //               .push(MaterialPageRoute(builder: (context) {
+          //             return CheckIn(user: widget.user);
+          //           }));
+          //         },
+          //         heroTag: null,
+          //         child: const Icon(Icons.login),
+          //       )
+          //     : SizedBox(),
+          // const SizedBox(
+          //   height: 10,
+          // ),
           isCheckedIn
               ? FloatingActionButton(
                   backgroundColor: const Color.fromARGB(255, 148, 52, 52),
