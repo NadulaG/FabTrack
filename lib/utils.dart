@@ -42,15 +42,16 @@ Future<http.Response> checkIn(GoogleSignInAccount user, String host,
 
     final http.Response checkInResponse = await http.put(
         Uri.parse(
-            'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A$currentSignedInRow:J$currentSignedInRow?valueInputOption=RAW'),
+            'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A$currentSignedInRow:K$currentSignedInRow?valueInputOption=RAW'),
         headers: await user.authHeaders,
         body: json.encode({
-          "range": "Timesheet!A$currentSignedInRow:J$currentSignedInRow",
+          "range": "Timesheet!A$currentSignedInRow:K$currentSignedInRow",
           "majorDimension": "ROWS",
           "values": [
             [
               idMap!["given_name"],
               idMap["family_name"],
+              user.email,
               host.split(' ')[0],
               host.split(' ')[1],
               studentGroup,
@@ -76,10 +77,10 @@ Future<http.Response> checkIn(GoogleSignInAccount user, String host,
 Future<http.Response> checkOut(user) async {
   final http.Response checkOutResponse = await http.put(
       Uri.parse(
-          'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!K$currentSignedInRow:K$currentSignedInRow?valueInputOption=RAW'),
+          'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!L$currentSignedInRow:L$currentSignedInRow?valueInputOption=RAW'),
       headers: await user.authHeaders,
       body: json.encode({
-        "range": "Timesheet!K$currentSignedInRow:K$currentSignedInRow",
+        "range": "Timesheet!L$currentSignedInRow:L$currentSignedInRow",
         "majorDimension": "ROWS",
         "values": [
           [
@@ -99,10 +100,10 @@ Future<http.Response> checkOut(user) async {
 Future<http.Response> toolCheckOut(GoogleSignInAccount user) async {
   final http.Response toolCheckOutResponse = await http.put(
       Uri.parse(
-          'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!H$currentSignedInRow:H$currentSignedInRow?valueInputOption=RAW'),
+          'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!I$currentSignedInRow:I$currentSignedInRow?valueInputOption=RAW'),
       headers: await user.authHeaders,
       body: json.encode({
-        "range": "Timesheet!H$currentSignedInRow:H$currentSignedInRow",
+        "range": "Timesheet!I$currentSignedInRow:I$currentSignedInRow",
         "majorDimension": "ROWS",
         "values": [
           [globalTools.toString()]
