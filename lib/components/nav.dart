@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert' show json;
+import 'package:fabtrack/globals.dart';
+import 'package:fabtrack/utils.dart';
 
 import '../pages/home.dart';
 import '../pages/profile.dart';
 import '../pages/check_in.dart';
-import '../pages/add_part.dart';
-import '../components/tool_cards.dart';
-
-import 'package:fabtrack/globals.dart';
+import '../pages/add_tool.dart';
 
 class Nav extends StatefulWidget {
   final GoogleSignInAccount user;
@@ -23,60 +20,59 @@ class Nav extends StatefulWidget {
 }
 
 class _NavState extends State<Nav> {
+  int _selectedIndex = 0;
+  late List<Widget> _children;
   void onDestinationSelected(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  int _selectedIndex = 0;
-
-  late List<Widget> _children;
-
   @override
   void initState() {
+    super.initState();
     _children = [
       Home(user: widget.user),
       Profile(user: widget.user),
     ];
   }
 
-  showAlertDialog(BuildContext context) {
-    // set up the buttons
+  /// Shows an alert dialog for checking out.
+  checkOutModal(BuildContext context) {
     Widget cancelButton = TextButton(
-      child: Text("Cancel"),
+      child: const Text("Cancel"),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
 
+    /// Checks out and navigates to the home page.
+    void checkOutAndNavigate() {
+      try {
+        checkOut(widget.user).then((checkOutResponse) => {
+              isCheckedIn = false,
+              currentSignedInRow = 0,
+              globalTools = [],
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return Nav(user: widget.user);
+              }))
+            });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('An error occurred while checking out.'),
+        ));
+      }
+    }
+
     Widget continueButton = TextButton(
-      child: Text("Check out"),
+      child: const Text("Check out"),
       onPressed: () async {
-        final http.Response signIn = await http.put(
-            Uri.parse(
-                'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!K$currentSignedInRow:K$currentSignedInRow?valueInputOption=RAW'),
-            headers: await widget.user.authHeaders,
-            body: json.encode({
-              "range": "Timesheet!K$currentSignedInRow:K$currentSignedInRow",
-              "majorDimension": "ROWS",
-              "values": [
-                [
-                  "${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour > 12 ? 'PM' : 'AM'}"
-                ]
-              ]
-            }));
-        isCheckedIn = false;
-        currentSignedInRow = 0;
-        globalTools = [];
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return Nav(user: widget.user);
-        }));
+        checkOutAndNavigate();
       },
     ); // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Log Out"),
-      content: Text("Would you like to check out of the Fab Lab?"),
+      title: const Text("Check Out"),
+      content: const Text("Are you sure you would like to check out?"),
       actions: [
         cancelButton,
         continueButton,
@@ -112,32 +108,32 @@ class _NavState extends State<Nav> {
         ),
         floatingActionButton:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          // !isCheckedIn
-          //     ? FloatingActionButton(
-          //         backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
-          //         onPressed: () {
-          //           Navigator.of(context)
-          //               .push(MaterialPageRoute(builder: (context) {
-          //             return CheckIn(user: widget.user);
-          //           }));
-          //         },
-          //         heroTag: null,
-          //         child: const Icon(Icons.login),
-          //       )
-          //     : SizedBox(),
-          // const SizedBox(
-          //   height: 10,
-          // ),
-          isCheckedIn
+          !isCheckedIn
               ? FloatingActionButton(
-                  backgroundColor: const Color.fromARGB(255, 148, 52, 52),
+                  backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
                   onPressed: () {
-                    showAlertDialog(context);
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return CheckIn(user: widget.user);
+                    }));
                   },
                   heroTag: null,
                   child: const Icon(Icons.login),
                 )
-              : SizedBox(),
+              : const SizedBox(),
+          const SizedBox(
+            height: 10,
+          ),
+          isCheckedIn
+              ? FloatingActionButton(
+                  backgroundColor: const Color.fromARGB(255, 148, 52, 52),
+                  onPressed: () {
+                    checkOutModal(context);
+                  },
+                  heroTag: null,
+                  child: const Icon(Icons.login),
+                )
+              : const SizedBox(),
           const SizedBox(
             height: 10,
           ),
@@ -147,13 +143,13 @@ class _NavState extends State<Nav> {
                   onPressed: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return AddPart(user: widget.user);
+                      return AddTool(user: widget.user);
                     }));
                   },
                   heroTag: null,
                   child: const Icon(Icons.add),
                 )
-              : SizedBox(),
+              : const SizedBox(),
         ]));
   }
 }

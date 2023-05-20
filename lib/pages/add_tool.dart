@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert' show json;
-
-import 'auth/log_in.dart';
-import 'package:fabtrack/components/nav.dart';
 import 'package:fabtrack/globals.dart';
+import 'package:fabtrack/utils.dart';
 
-class AddPart extends StatelessWidget {
-  /*
-  Handles both checking in and out of the Fab Lab
-  */
+import 'package:fabtrack/components/nav.dart';
+
+class AddTool extends StatelessWidget {
+  AddTool({Key? key, required this.user}) : super(key: key);
+  final GoogleSignInAccount user;
+
   String textContent = "";
-  AddPart({Key? key, required this.user}) : super(key: key);
-  final GoogleSignInAccount user; // google oauth user
 
+  /// Adds a tool and navigates to the home page.
   void addTool(context) async {
     globalTools.add({
       "name": textContent,
@@ -24,24 +21,17 @@ class AddPart extends StatelessWidget {
           "${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour > 12 ? 'PM' : 'AM'}"
     });
 
-    final http.Response signIn = await http.put(
-                        Uri.parse(
-                            'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!H$currentSignedInRow:H$currentSignedInRow?valueInputOption=RAW'),
-                        headers: await user.authHeaders,
-                        body: json.encode({
-                          "range":
-                              "Timesheet!H$currentSignedInRow:H$currentSignedInRow",
-                          "majorDimension": "ROWS",
-                          "values": [
-                            [
-                              globalTools.toString()
-                            ]
-                          ]
-                        }));
-    
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return Nav(user: user);
-    }));
+    try {
+      toolCheckOut(user).then((checkOutResponse) => {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return Nav(user: user);
+            }))
+          });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('An error occurred while checking out tool.'),
+      ));
+    }
   }
 
   @override
@@ -124,18 +114,17 @@ class AddPart extends StatelessWidget {
                   ),
                   Container(
                     decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 103, 255, 156),
+                        color: Color.fromARGB(255, 52, 96, 148),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
-                      child: Container(
-                          child: const Text(
-                        "Check out tool",
+                      child: const Text(
+                        "Check out",
                         style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: Colors.white,
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
                         ),
-                      )),
+                      ),
                       onPressed: () => {addTool(context)},
                     ),
                   ),

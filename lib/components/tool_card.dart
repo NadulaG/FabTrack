@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:google_fonts/google_fonts.dart';
-import 'package:fabtrack/globals.dart';
 
 class ActivityCard extends StatelessWidget {
   List cardsList = [];
-  ActivityCard(List cardsInput) {
+  ActivityCard(List cardsInput, {Key? key}) : super(key: key) {
     cardsList = cardsInput;
   }
 
+  /// Adds a card to the list of cards.
   void addCard(var card) {
     cardsList.add(card);
   }

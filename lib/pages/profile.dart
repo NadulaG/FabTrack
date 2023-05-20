@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:fabtrack/globals.dart';
 
 import 'auth/log_in.dart';
 
 class Profile extends StatelessWidget {
-  Profile({Key? key, required this.user}) : super(key: key);
+  const Profile({Key? key, required this.user}) : super(key: key);
   final GoogleSignInAccount user;
-
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
-    'email',
-    'https://www.googleapis.com/auth/spreadsheets',
-  ]);
 
   @override
   Widget build(BuildContext context) {
+    /// Logs out and navigates to the login page.
     logOut() async {
-      _googleSignIn.signOut();
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) {
-        return Login();
-      }));
+      googleSignIn.signOut().then((_) => {
+            Navigator.of(context)
+                .pushReplacement(MaterialPageRoute(builder: (context) {
+              return const Login();
+            }))
+          });
     }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
-          // margin: const EdgeInsets.all(10.0),
-          // color: Color(0xFF80838B),
           width: MediaQuery.of(context).size.width,
           height: 140.0,
 
@@ -40,7 +38,6 @@ class Profile extends StatelessWidget {
 
           child: Container(
             margin: const EdgeInsets.fromLTRB(10, 60, 10, 10),
-            // color: Color(0xFF4F525A),
             decoration: BoxDecoration(
                 border: Border.all(
                   color: const Color(0xFF4F525A),

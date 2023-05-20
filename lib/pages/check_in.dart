@@ -1,96 +1,55 @@
-import 'package:fabtrack/globals.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert' show json, base64Url, utf8;
+import 'package:fabtrack/globals.dart';
+import 'package:fabtrack/utils.dart';
 
-import 'auth/log_in.dart';
 import '../components/nav.dart';
 
-import '../utils.dart';
-
 class CheckIn extends StatelessWidget {
-  /*
-  Handles both checking in and out of the Fab Lab
-  */
   CheckIn({Key? key, required this.user}) : super(key: key);
-  final GoogleSignInAccount
-      user; // not sure if you actually need this, just did it because other pages had it
+  final GoogleSignInAccount user;
 
-  late String studentGroup;
-  late String activity;
-  late String host;
-  late String spaceUsed;
+  // Form values
+  String studentGroup = "";
+  String activity = "";
+  String host = "";
+  String spaceUsed = "";
 
-  bool signingIn = false;
+  bool checkingIn = false;
 
   @override
   Widget build(BuildContext context) {
-    void check_in() async {
-      if (!signingIn) {
-        signingIn = true;
-        
-        print("Checking in");
+    /// Checks in and navigates to the home page.
+    void checkInAndNavigate() async {
+      if (!checkingIn) {
+        checkingIn = true;
 
-        try {
-          final List<String> parts =
-              await user.authentication.then((auth) => auth.idToken!.split('.'));
-          Map<String, dynamic>? idMap =
-              parseJwt(await user.authentication.then((auth) => auth.idToken!));
-
-          final http.Response timesheet = await http.get(
-            Uri.parse(
-                'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A1:Z1000'),
-            headers: await user.authHeaders,
-          );
-
-          if (timesheet.statusCode == 200) {
-            final Map<String, dynamic> data = json.decode(timesheet.body);
-            currentSignedInRow = data.values.elementAt(2).length + 1;
-
-            final http.Response signIn = await http.put(
-                Uri.parse(
-                    'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A$currentSignedInRow:J$currentSignedInRow?valueInputOption=RAW'),
-                headers: await user.authHeaders,
-                body: json.encode({
-                  "range": "Timesheet!A$currentSignedInRow:J$currentSignedInRow",
-                  "majorDimension": "ROWS",
-                  "values": [
-                    [
-                      idMap!["given_name"],
-                      idMap["family_name"],
-                      host.split(' ')[0],
-                      host.split(' ')[1],
-                      studentGroup,
-                      spaceUsed,
-                      activity,
-                      "N/A",
-                      "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}",
-                      "${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour > 12 ? 'PM' : 'AM'}"
-                    ]
-                  ]
-                }));
-
-            if (signIn.statusCode == 200) {
-              print('Signed in');
-              isCheckedIn = true;
-              Navigator.of(context)
-                  .pushReplacement(MaterialPageRoute(builder: (context) {
-                return Nav(user: user);
-              }));
-            } else {
-              print(signIn.body);
-            }
-          } else {
-            print(timesheet.body);
-          }
-        } catch (e) {
-          print(e);
+        if (host.isEmpty || studentGroup.isEmpty || spaceUsed.isEmpty || activity.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Please fill out all fields.'),
+          ));
+          checkingIn = false;
+          return;
         }
 
-        signingIn = false;
+        try {
+          checkIn(user, host, studentGroup, spaceUsed, activity)
+              .then((checkInResponse) => {
+                    isCheckedIn = true,
+                    Navigator.of(context)
+                        .pushReplacement(MaterialPageRoute(builder: (context) {
+                      return Nav(user: user);
+                    }))
+                  });
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('An error occurred while checking in.'),
+          ));
+        }
+
+        checkingIn = false;
       }
     }
 
@@ -247,21 +206,20 @@ class CheckIn extends StatelessWidget {
                   ),
                   Container(
                     decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 103, 255, 156),
+                        color: Color.fromARGB(255, 52, 96, 148),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
                       onPressed: () {
-                        check_in();
+                        checkInAndNavigate();
                       },
-                      child: Container(
-                          child: const Text(
-                        "Sign in to Fab Lab",
+                      child: const Text(
+                        "Check in",
                         style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: Colors.white,
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
                         ),
-                      )),
+                      ),
                     ),
                   ),
                 ],

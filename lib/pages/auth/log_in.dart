@@ -1,24 +1,21 @@
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:fabtrack/pages/home.dart';
-import '../../components/nav.dart';
 import 'package:flutter/material.dart';
+
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Login extends StatelessWidget {
-  Login({Key? key}) : super(key: key);
+import 'package:fabtrack/globals.dart';
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
-    'email',
-    'https://www.googleapis.com/auth/userinfo.profile',
-    'https://www.googleapis.com/auth/contacts.readonly',
-    'https://www.googleapis.com/auth/spreadsheets',
-  ]);
+import '../../components/nav.dart';
+
+class Login extends StatelessWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    logIn() async {
+    /// Logs in with Google and navigates to the home page.
+    void logIn() async {
       try {
-        await _googleSignIn.signIn().then((user) {
+        await googleSignIn.signIn().then((user) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => Nav(user: user!),
@@ -26,7 +23,8 @@ class Login extends StatelessWidget {
           );
         });
       } catch (error) {
-        print(error);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("An error occurred while logging in.")));
       }
     }
 

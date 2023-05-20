@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 import 'pages/auth/log_in.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class FabTrack extends StatelessWidget {
+  const FabTrack({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,15 +16,12 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.montserratTextTheme(
           Theme.of(context).textTheme,
         ),
-        // navigationBarTheme: const NavigationBarThemeData(
-        //   labelTextStyle: TextStyle(color: Colors.white),
-        // ),
       ),
-      home: Login(),
+      home: const Login(),
     );
   }
 }
 
 void main() {
-  runApp(const MyApp());
+  runApp(const FabTrack());
 }

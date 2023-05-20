@@ -3,20 +3,12 @@ import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert' show json, base64Url, utf8;
-
-import 'auth/log_in.dart';
-import '../components/nav.dart';
-
-import '../components/tool_cards.dart';
 import 'package:fabtrack/globals.dart';
-import '../utils.dart';
 
 import '../pages/check_in.dart';
-
-import 'package:nfc_manager/nfc_manager.dart';
+import '../components/tool_card.dart';
 
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
@@ -47,8 +39,6 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-void sheetsRequest() async {}
-
 class _HomeState extends State<Home> {
   _MyHomePageState() {}
 
@@ -56,10 +46,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    void runNFC(context) async {
-      // Check availability
-      bool isAvailable = await NfcManager.instance.isAvailable();
-      // Start Session
+    /// Navigates to check in page if Fab Lab NFC tag is scanned.
+    void nfcTask(context) async {
       NfcManager.instance.startSession(
         onDiscovered: (NfcTag tag) async {
           if (listEquals(tag.data["nfca"]["identifier"],
@@ -70,12 +58,10 @@ class _HomeState extends State<Home> {
           }
         },
       );
-
-      // Stop Session
-      // NfcManager.instance.stopSession();
     }
 
-    runNFC(context);
+    nfcTask(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -98,19 +84,18 @@ class _HomeState extends State<Home> {
                 color: const Color(0xFF4F525A),
                 borderRadius: const BorderRadius.all(Radius.circular(10))),
             child: Center(
-              child:
-                  Text(isCheckedIn ? 'Status: Signed In' : 'Status: Signed Out',
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        fontSize: 24,
-                      )),
+              child: Text(
+                  isCheckedIn ? 'Status: Checked In' : 'Status: Checked Out',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontSize: 24,
+                  )),
             ),
           ),
         ),
-        // [{"name": "hammer", "skill level":1}, {"name": "hacksaw", "skill level":50}]
         ActivityCard(globalTools)
       ],
     );
