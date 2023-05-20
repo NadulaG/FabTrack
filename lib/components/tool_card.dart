@@ -18,10 +18,8 @@ class ActivityCard extends StatelessWidget {
     return SizedBox(
       height: MediaQuery.of(context).size.height - 220,
       child: ListView.builder(
-          itemCount: cardsList.length, // cardList.length,
+          itemCount: cardsList.length,
           itemBuilder: (BuildContext context, int index) {
-            // Build the widget of the CardState[index] and return it
-
             return Container(
               height: 100,
               margin: const EdgeInsets.all(8),
@@ -31,36 +29,51 @@ class ActivityCard extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Container(
-                      margin: const EdgeInsets.all(4),
-                      padding: const EdgeInsets.all(4),
-                      height: 45,
-                      width: 120,
-                      decoration: const BoxDecoration(
-                          color: Color(0xFFF4C300),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: Center(
-                        child: Text(
-                          cardsList[index]["name"],
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.clip,
-                          style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 18,
+                  Row(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          margin: const EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(4),
+                          height: 45,
+                          width: 120,
+                          decoration: const BoxDecoration(
+                              color: Color(0xFFF4C300),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Center(
+                            child: Text(
+                              cardsList[index]["name"],
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Text(
+                          cardsList[index]["time"],
+                          style: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 14,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
             );
           }),
     );
   }
-
-  // build(context);
 }
