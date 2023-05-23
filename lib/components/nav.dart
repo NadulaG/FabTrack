@@ -99,7 +99,7 @@ class _NavState extends State<Nav> {
       googleSignIn.signOut().then((_) => {
             Navigator.of(context)
                 .pushReplacement(MaterialPageRoute(builder: (context) {
-              return const Login();
+              return Login();
             }))
           });
     }
