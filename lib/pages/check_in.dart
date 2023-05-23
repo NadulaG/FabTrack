@@ -125,6 +125,7 @@ class CheckIn extends StatelessWidget {
                             fillColor: Color(0xFF80838B),
                             filled: true,
                             border: UnderlineInputBorder(),
+                            labelStyle: TextStyle(color: Color.fromARGB(255, 73, 75, 80)),
                             labelText: 'Student Group',
                           ),
                           onChanged: (value) => studentGroup = value,
@@ -137,6 +138,7 @@ class CheckIn extends StatelessWidget {
                             const BorderRadius.all(Radius.circular(10)),
                         child: TextFormField(
                           decoration: const InputDecoration(
+                            labelStyle: TextStyle(color: Color.fromARGB(255, 73, 75, 80)),
                             fillColor: Color(0xFF80838B),
                             filled: true,
                             border: UnderlineInputBorder(),
@@ -199,6 +201,7 @@ class CheckIn extends StatelessWidget {
                             );
                           }).toList(),
                           decoration: const InputDecoration(
+                            labelStyle:TextStyle(color: Color.fromARGB(255, 73, 75, 80)),
                             fillColor: Color(0xFF80838B),
                             filled: true,
                             border: UnderlineInputBorder(),
