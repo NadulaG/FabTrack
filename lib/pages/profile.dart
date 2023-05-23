@@ -23,9 +23,8 @@ class Profile extends StatelessWidget {
               cardsList.add(element);
             }
           }),
+          cardsList = cardsList.reversed.toList(),
         });
-
-    print(cardsList);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -89,46 +88,85 @@ class Profile extends StatelessWidget {
                         Row(
                           children: [
                             Align(
-                              alignment: Alignment.topLeft,
-                              child: Container(
-                                margin: const EdgeInsets.all(4),
-                                padding: const EdgeInsets.all(4),
-                                height: 45,
-                                width: 120,
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 52, 96, 148),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: Center(
-                                  child: Text(
-                                    cardsList[index][7],
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
+                                alignment: Alignment.topLeft,
+                                child: Column(children: [
+                                  Container(
+                                    margin: const EdgeInsets.all(4),
+                                    padding: const EdgeInsets.all(4),
+                                    height: 45,
+                                    width: 165,
+                                    decoration: const BoxDecoration(
+                                        color: Color.fromARGB(255, 52, 96, 148),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20))),
+                                    child: Center(
+                                      child: Text(
+                                        cardsList[index][7],
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    cardsList[index][9],
                                     style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black,
-                                      fontSize: 18,
+                                      fontSize: 14,
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
+                                  Text(
+                                    cardsList[index][10] +
+                                        "-" +
+                                        cardsList[index][11],
+                                    style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ])),
                             const Spacer(),
                             Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Text(
-                                cardsList[index][9] +
-                                    " " +
-                                    cardsList[index][10],
-                                style: GoogleFonts.montserrat(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            )
+                                padding: const EdgeInsets.only(right: 10),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      cardsList[index][3] +
+                                          " " +
+                                          cardsList[index][4],
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    Text(
+                                      cardsList[index][6],
+                                      style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    Text(
+                                      cardsList[index][5],
+                                      style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ))
                           ],
-                        )
+                        ),
                       ],
                     ),
                   );

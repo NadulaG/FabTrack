@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 
 import 'package:fabtrack/globals.dart';
 import 'package:fabtrack/utils.dart';
@@ -87,8 +88,12 @@ class _NavState extends State<Nav> {
     );
   }
 
+  bool nfcAvailable = false;
+
   @override
   Widget build(BuildContext context) {
+    NfcManager.instance.isAvailable().then((value) => {nfcAvailable = value});
+
     /// Logs out and navigates to the login page.
     void logOut() async {
       googleSignIn.signOut().then((_) => {
@@ -119,7 +124,9 @@ class _NavState extends State<Nav> {
         ),
         floatingActionButton:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          !isCheckedIn && _children.elementAt(_selectedIndex) is Home
+          !isCheckedIn &&
+                  _children.elementAt(_selectedIndex) is Home &&
+                  !nfcAvailable
               ? FloatingActionButton(
                   backgroundColor: const Color.fromRGBO(52, 96, 148, 1),
                   onPressed: () {
