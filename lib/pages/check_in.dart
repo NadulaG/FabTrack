@@ -26,7 +26,10 @@ class CheckIn extends StatelessWidget {
       if (!checkingIn) {
         checkingIn = true;
 
-        if (host.isEmpty || studentGroup.isEmpty || spaceUsed.isEmpty || activity.isEmpty) {
+        if (host.isEmpty ||
+            studentGroup.isEmpty ||
+            spaceUsed.isEmpty ||
+            activity.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Please fill out all fields.'),
           ));

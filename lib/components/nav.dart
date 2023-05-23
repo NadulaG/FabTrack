@@ -70,7 +70,7 @@ class _NavState extends State<Nav> {
       onPressed: () async {
         checkOutAndNavigate();
       },
-    ); // set up the AlertDialog
+    );
     AlertDialog alert = AlertDialog(
       title: const Text("Check Out"),
       content: const Text("Are you sure you would like to check out?"),
@@ -78,7 +78,7 @@ class _NavState extends State<Nav> {
         cancelButton,
         continueButton,
       ],
-    ); // show the dialog
+    );
     showDialog(
       context: context,
       builder: (BuildContext context) {

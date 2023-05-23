@@ -12,11 +12,9 @@ Map<String, dynamic>? parseJwt(String token) {
   if (parts.length != 3) {
     return null;
   }
-  // retrieve token payload
   final String payload = parts[1];
   final String normalized = base64Url.normalize(payload);
   final String resp = utf8.decode(base64Url.decode(normalized));
-  // convert to Map
   final payloadMap = json.decode(resp);
   if (payloadMap is! Map<String, dynamic>) {
     return null;
@@ -112,6 +110,22 @@ Future<http.Response> toolCheckOut(GoogleSignInAccount user) async {
 
   if (toolCheckOutResponse.statusCode == 200) {
     return toolCheckOutResponse;
+  } else {
+    throw Exception('Failed to load spreadsheet');
+  }
+}
+
+/// Returns the timesheet spreadsheet.
+Future<Map<String, dynamic>> getTimesheet(user) async {
+  final http.Response timesheet = await http.get(
+    Uri.parse(
+        'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Timesheet!A1:Z1000'),
+    headers: await user.authHeaders,
+  );
+
+  if (timesheet.statusCode == 200) {
+    final Map<String, dynamic> data = json.decode(timesheet.body);
+    return data;
   } else {
     throw Exception('Failed to load spreadsheet');
   }
