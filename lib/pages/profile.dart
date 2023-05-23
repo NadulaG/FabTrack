@@ -106,7 +106,7 @@ class Profile extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.montserrat(
                                           fontWeight: FontWeight.w600,
-                                          color: Colors.black,
+                                          color: Colors.white,
                                           fontSize: 18,
                                         ),
                                       ),
@@ -116,7 +116,7 @@ class Profile extends StatelessWidget {
                                     cardsList[index][9],
                                     style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -126,7 +126,7 @@ class Profile extends StatelessWidget {
                                         cardsList[index][11],
                                     style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -143,7 +143,7 @@ class Profile extends StatelessWidget {
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.montserrat(
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.black,
+                                        color: Colors.white,
                                         fontSize: 14,
                                       ),
                                     ),
@@ -151,7 +151,7 @@ class Profile extends StatelessWidget {
                                       cardsList[index][6],
                                       style: GoogleFonts.montserrat(
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.black,
+                                        color: Colors.white,
                                         fontSize: 14,
                                       ),
                                     ),
@@ -159,7 +159,7 @@ class Profile extends StatelessWidget {
                                       cardsList[index][5],
                                       style: GoogleFonts.montserrat(
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.black,
+                                        color: Colors.white,
                                         fontSize: 14,
                                       ),
                                     ),
