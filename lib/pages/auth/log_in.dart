@@ -33,7 +33,7 @@ class Login extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('lib/images/NCSSMLogo.png',
+                Image.asset('lib/images/ncssm_logo.png',
                     fit: BoxFit.fill, width: 128, height: 128),
                 Center(
                     child: Padding(
