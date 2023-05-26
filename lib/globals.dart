@@ -8,6 +8,8 @@ GoogleSignIn googleSignIn = GoogleSignIn(scopes: [
   'https://www.googleapis.com/auth/spreadsheets',
 ]);
 
+List recentCheckIns = [];
+
 String spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
 bool isCheckedIn = false;
 int currentSignedInRow = 0;

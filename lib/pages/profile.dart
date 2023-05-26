@@ -1,4 +1,3 @@
-import 'package:fabtrack/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,26 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:fabtrack/globals.dart';
 
-import 'auth/log_in.dart';
-
 class Profile extends StatelessWidget {
   Profile({Key? key, required this.user}) : super(key: key);
   final GoogleSignInAccount user;
 
-  List cardsList = [];
-
   @override
   Widget build(BuildContext context) {
-    getTimesheet(user).then((timesheet) => {
-          cardsList.clear(),
-          timesheet.values.elementAt(2).forEach((element) {
-            if (element[2] == user.email) {
-              cardsList.add(element);
-            }
-          }),
-          cardsList = cardsList.reversed.toList(),
-        });
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -73,7 +58,7 @@ class Profile extends StatelessWidget {
         SizedBox(
             height: MediaQuery.of(context).size.height - 220,
             child: ListView.builder(
-                itemCount: cardsList.length,
+                itemCount: recentCheckIns.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     height: 100,
@@ -101,7 +86,7 @@ class Profile extends StatelessWidget {
                                             Radius.circular(20))),
                                     child: Center(
                                       child: Text(
-                                        cardsList[index][7],
+                                        recentCheckIns[index][7],
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.montserrat(
@@ -113,7 +98,7 @@ class Profile extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    cardsList[index][9],
+                                    recentCheckIns[index][9],
                                     style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
@@ -121,9 +106,9 @@ class Profile extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    cardsList[index][10] +
+                                    recentCheckIns[index][10] +
                                         "-" +
-                                        cardsList[index][11],
+                                        recentCheckIns[index][11],
                                     style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
@@ -137,9 +122,9 @@ class Profile extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Text(
-                                      cardsList[index][3] +
+                                      recentCheckIns[index][3] +
                                           " " +
-                                          cardsList[index][4],
+                                          recentCheckIns[index][4],
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.montserrat(
                                         fontWeight: FontWeight.w600,
@@ -148,7 +133,7 @@ class Profile extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      cardsList[index][6],
+                                      recentCheckIns[index][6],
                                       style: GoogleFonts.montserrat(
                                         fontWeight: FontWeight.w600,
                                         color: Colors.white,
@@ -156,7 +141,7 @@ class Profile extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      cardsList[index][5],
+                                      recentCheckIns[index][5],
                                       style: GoogleFonts.montserrat(
                                         fontWeight: FontWeight.w600,
                                         color: Colors.white,
