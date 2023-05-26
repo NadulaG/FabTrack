@@ -1,3 +1,4 @@
+import 'package:fabtrack/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
@@ -36,13 +37,28 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(user.photoUrl?.toString() ??
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232'),
-                    radius: 24,
-                  ),
-                ),
+                    margin: const EdgeInsets.only(right: 10),
+                    child: ValueListenableBuilder(
+                        valueListenable: trainingLevel,
+                        builder: (context, value, widget) {
+                          return Badge(
+                            alignment: AlignmentDirectional.topStart,
+                            backgroundColor: trainingLevel.value == 0
+                                ? Colors.green
+                                : trainingLevel.value == 1
+                                    ? Colors.grey
+                                    : trainingLevel.value == 2
+                                        ? Colors.amber
+                                        : Colors.purple,
+                            label: Text(trainingLevel.value.toString()),
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(user.photoUrl
+                                      ?.toString() ??
+                                  'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232'),
+                              radius: 24,
+                            ),
+                          );
+                        })),
                 Text(
                   user.displayName!,
                   style: const TextStyle(

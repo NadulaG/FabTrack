@@ -13,6 +13,9 @@ GoogleSignIn googleSignIn = GoogleSignIn(scopes: [
 ValueNotifier<bool> loadedRecentCheckIns = ValueNotifier<bool>(false);
 List recentCheckIns = [];
 
+bool trainingLevelLoaded = false;
+ValueNotifier<int> trainingLevel = ValueNotifier<int>(0);
+
 String spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
 bool isCheckedIn = false;
 int currentSignedInRow = 0;

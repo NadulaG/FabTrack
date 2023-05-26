@@ -130,3 +130,24 @@ Future<Map<String, dynamic>> getTimesheet(user) async {
     throw Exception('Failed to load spreadsheet');
   }
 }
+
+/// Returns a user's training level.
+Future<int> getTraining(user) async {
+  final http.Response training = await http.get(
+    Uri.parse(
+        'https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/Training!A1:Z1000'),
+    headers: await user.authHeaders,
+  );
+
+  if (training.statusCode == 200) {
+    final Map<String, dynamic> data = json.decode(training.body);
+    for (int i = 0; i < data.values.elementAt(2).length; i++) {
+      if (data.values.elementAt(2)[i][1] == user.email) {
+        return int.parse(data.values.elementAt(2)[i][3]);
+      }
+    }
+    return 0;
+  } else {
+    throw Exception('Failed to load spreadsheet');
+  }
+}

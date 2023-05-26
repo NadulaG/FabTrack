@@ -105,11 +105,17 @@ class _NavState extends State<Nav> {
           loadedRecentCheckIns.value = true
         });
 
+    if (!trainingLevelLoaded) {
+      getTraining(widget.user).then(
+          (value) => {trainingLevelLoaded = true, trainingLevel.value = value});
+    }
+
     /// Logs out and navigates to the login page.
     void logOut() async {
       googleSignIn.signOut().then((_) => {
             loadedRecentCheckIns.value = false,
             recentCheckIns = [],
+            trainingLevel.value = 0,
             Navigator.of(context)
                 .pushReplacement(MaterialPageRoute(builder: (context) {
               return Login();
