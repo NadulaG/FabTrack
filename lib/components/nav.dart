@@ -95,20 +95,21 @@ class _NavState extends State<Nav> {
     NfcManager.instance.isAvailable().then((value) => {nfcAvailable = value});
 
     getTimesheet(widget.user).then((timesheet) => {
-          recentCheckIns.value = [],
+          recentCheckIns = [],
           timesheet.values.elementAt(2).forEach((element) {
             if (element[2] == widget.user.email && element.length == 12) {
-              recentCheckIns.value = List.from(recentCheckIns.value)
-                ..add(element);
+              recentCheckIns = List.from(recentCheckIns)..add(element);
             }
           }),
-          recentCheckIns.value =
-              List.from(recentCheckIns.value).reversed.toList(),
+          recentCheckIns = List.from(recentCheckIns).reversed.toList(),
+          loadedRecentCheckIns.value = true
         });
 
     /// Logs out and navigates to the login page.
     void logOut() async {
       googleSignIn.signOut().then((_) => {
+            loadedRecentCheckIns.value = false,
+            recentCheckIns = [],
             Navigator.of(context)
                 .pushReplacement(MaterialPageRoute(builder: (context) {
               return Login();
