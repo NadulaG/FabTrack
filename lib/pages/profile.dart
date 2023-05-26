@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:fabtrack/globals.dart';
 
 class Profile extends StatelessWidget {
-  Profile({Key? key, required this.user}) : super(key: key);
+  const Profile({Key? key, required this.user}) : super(key: key);
   final GoogleSignInAccount user;
 
   @override
@@ -55,107 +55,113 @@ class Profile extends StatelessWidget {
             )),
           ),
         ),
-        SizedBox(
-            height: MediaQuery.of(context).size.height - 220,
-            child: ListView.builder(
-                itemCount: recentCheckIns.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 100,
-                    margin: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color: const Color(0xFF80838B),
-                        border: Border.all(color: const Color(0xFF80838B)),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20))),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Align(
-                                alignment: Alignment.topLeft,
-                                child: Column(children: [
-                                  Container(
-                                    margin: const EdgeInsets.all(4),
-                                    padding: const EdgeInsets.all(4),
-                                    height: 45,
-                                    width: 165,
-                                    decoration: const BoxDecoration(
-                                        color: Color.fromARGB(255, 52, 96, 148),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
-                                    child: Center(
-                                      child: Text(
-                                        recentCheckIns[index][7],
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                          fontSize: 18,
+        ValueListenableBuilder(
+            valueListenable: recentCheckIns,
+            builder: (context, value, widget) {
+              return SizedBox(
+                  height: MediaQuery.of(context).size.height - 220,
+                  child: ListView.builder(
+                      itemCount: recentCheckIns.value.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          height: 100,
+                          margin: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              color: const Color(0xFF80838B),
+                              border:
+                                  Border.all(color: const Color(0xFF80838B)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(20))),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Column(children: [
+                                        Container(
+                                          margin: const EdgeInsets.all(4),
+                                          padding: const EdgeInsets.all(4),
+                                          height: 45,
+                                          width: 165,
+                                          decoration: const BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  255, 52, 96, 148),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20))),
+                                          child: Center(
+                                            child: Text(
+                                              recentCheckIns.value[index][7],
+                                              textAlign: TextAlign.center,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    recentCheckIns[index][9],
-                                    style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  Text(
-                                    recentCheckIns[index][10] +
-                                        "-" +
-                                        recentCheckIns[index][11],
-                                    style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ])),
-                            const Spacer(),
-                            Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      recentCheckIns[index][3] +
-                                          " " +
-                                          recentCheckIns[index][4],
-                                      overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    Text(
-                                      recentCheckIns[index][6],
-                                      style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    Text(
-                                      recentCheckIns[index][5],
-                                      style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ))
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                })),
+                                        Text(
+                                          recentCheckIns.value[index][9],
+                                          style: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        Text(
+                                          recentCheckIns.value[index][10] +
+                                              "-" +
+                                              recentCheckIns.value[index][11],
+                                          style: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ])),
+                                  const Spacer(),
+                                  Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            recentCheckIns.value[index][3] +
+                                                " " +
+                                                recentCheckIns.value[index][4],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          Text(
+                                            recentCheckIns.value[index][6],
+                                            style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          Text(
+                                            recentCheckIns.value[index][5],
+                                            style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ))
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      }));
+            })
       ],
     );
   }

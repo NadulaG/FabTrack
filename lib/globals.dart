@@ -1,5 +1,6 @@
 library globals;
 
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 GoogleSignIn googleSignIn = GoogleSignIn(scopes: [
@@ -8,7 +9,7 @@ GoogleSignIn googleSignIn = GoogleSignIn(scopes: [
   'https://www.googleapis.com/auth/spreadsheets',
 ]);
 
-List recentCheckIns = [];
+ValueNotifier<List> recentCheckIns = ValueNotifier<List>([]);
 
 String spreadsheetId = '1JF3wS10ayFZISBne_MuluZb0MkV-fzrJWAcGdgN4_N8';
 bool isCheckedIn = false;

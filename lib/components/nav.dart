@@ -95,13 +95,15 @@ class _NavState extends State<Nav> {
     NfcManager.instance.isAvailable().then((value) => {nfcAvailable = value});
 
     getTimesheet(widget.user).then((timesheet) => {
-          recentCheckIns.clear(),
+          recentCheckIns.value = [],
           timesheet.values.elementAt(2).forEach((element) {
             if (element[2] == widget.user.email && element.length == 12) {
-              recentCheckIns.add(element);
+              recentCheckIns.value = List.from(recentCheckIns.value)
+                ..add(element);
             }
           }),
-          recentCheckIns = recentCheckIns.reversed.toList(),
+          recentCheckIns.value =
+              List.from(recentCheckIns.value).reversed.toList(),
         });
 
     /// Logs out and navigates to the login page.
