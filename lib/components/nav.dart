@@ -116,6 +116,7 @@ class _NavState extends State<Nav> {
             loadedRecentCheckIns.value = false,
             recentCheckIns = [],
             trainingLevel.value = 0,
+            trainingLevelLoaded = false,
             Navigator.of(context)
                 .pushReplacement(MaterialPageRoute(builder: (context) {
               return Login();
