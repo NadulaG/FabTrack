@@ -40,8 +40,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  _MyHomePageState() {}
-
   int selectedPageIndex = 0;
 
   @override

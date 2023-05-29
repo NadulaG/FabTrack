@@ -121,7 +121,7 @@ packages:
     source: sdk
     version: "0.0.0"
   font_awesome_flutter:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: font_awesome_flutter
       sha256: "959ef4add147753f990b4a7c6cccb746d5792dbdc81b1cde99e62e7edb31b206"
@@ -129,7 +129,7 @@ packages:
     source: hosted
     version: "10.4.0"
   google_fonts:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: google_fonts
       sha256: "6b6f10f0ce3c42f6552d1c70d2c28d764cf22bb487f50f66cca31dcd5194f4d6"
@@ -145,7 +145,7 @@ packages:
     source: hosted
     version: "0.2.1"
   google_sign_in:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: google_sign_in
       sha256: "776a4c988dc179c3b8e9201de0ad61bf350a4e75d378ff9d94c76880378c7bca"
@@ -201,7 +201,7 @@ packages:
     source: hosted
     version: "1.4.0"
   gsheets:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: gsheets
       sha256: "953c0ea7bd58a689fe36dbd0d0d48657c9f1ee33894abe35d0bf6b78eda6f9d1"
@@ -209,7 +209,7 @@ packages:
     source: hosted
     version: "0.4.2"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
